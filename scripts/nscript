@@ -1,0 +1,200 @@
+#!/bin/bash
+
+NSCRIPT_SCRIPT_DIR="${NSCRIPT_SCRIPT_DIR:?Please set the "NSCRIPT_SCRIPT_DIR" environment variable. nscript will use it for storing shell scripts}"
+
+if [[ ! -d "${NSCRIPT_SCRIPT_DIR}" ]]
+then
+	echo "The NSCRIPT_SCRIPT_DIR value \"${NSCRIPT_SCRIPT_DIR}\" is not a valid directory."
+
+	exit 1
+fi
+
+NSCRIPT_EXECUTABLE_DIR="${NSCRIPT_EXECUTABLE_DIR:?Please set the "NSCRIPT_EXECUTABLE_DIR" environment variable.  It should be a directory in your path. Example: \"/usr/local/bin\"}"
+
+if [[ ! -d "${NSCRIPT_EXECUTABLE_DIR}" ]]
+then
+	echo "The NSCRIPT_EXECUTABLE_DIR value \"${NSCRIPT_EXECUTABLE_DIR}\" is not a valid directory."
+
+	exit 1
+fi
+
+if [[ -z "${NSCRIPT_EDITOR}" ]]
+then
+	NSCRIPT_EDITOR="${EDITOR}"
+fi
+
+# Create a new script.  1st argument is the script name, 2nd is the optional script content
+createscript() {
+	local NAME="$1" ; local SCRIPT_CONTENT="$2"
+
+	local NEW_FILE="${NSCRIPT_SCRIPT_DIR}/${NAME}"
+	local LINK_PATH="${NSCRIPT_EXECUTABLE_DIR}/${NAME%.*}"
+
+	if [ -f "${NEW_FILE}" ] ; then
+		echo "Script file \"${NAME}\" already exists at ${NEW_FILE}" && exit 1
+	fi
+
+	if [ -z "${SCRIPT_CONTENT}" ] ; then
+		read -r -d '' SCRIPT_CONTENT <<-SCRIPTBODY
+			#!/bin/bash
+
+			echo "This is echoing from ${NAME}"
+			echo "Script file is at ${NEW_FILE}"
+			echo "Symlink is at ${LINK_PATH}"
+		SCRIPTBODY
+	fi
+
+	echo "${SCRIPT_CONTENT}" > "${NEW_FILE}"
+
+	chmod 755 "${NEW_FILE}"
+
+	ln -s "${NEW_FILE}" "${LINK_PATH}"
+
+	"${NSCRIPT_EDITOR}" "${NEW_FILE}"
+}
+
+# Delete an existing script. Will prompt for confirmation.
+deletescript() {
+	local NAME="$1" ; local FORCE="$2"
+
+	local SCRIPT_FILE="${NSCRIPT_SCRIPT_DIR}/${NAME}"
+
+	if [ ! -f "${SCRIPT_FILE}" ] ; then
+		echo "Script file \"${SCRIPT_FILE}\" does not exist" && exit 1
+	fi
+
+	if [ "${FORCE}" == 1 ] ; then
+		DO_DELETE="Y"
+	else
+		# Prompt for confirmation
+		read -rsn 1 -p "Are you sure you want to delete ${NAME}? [Type \"Y\" to confirm]: " DO_DELETE
+	fi
+
+	if [ "${DO_DELETE}" == "Y" ] ; then
+		unlink "${NSCRIPT_EXECUTABLE_DIR}/${NAME%.*}"
+		rm "${SCRIPT_FILE}"
+
+		echo "Unlinked and deleted ${SCRIPT_FILE}"
+	else
+		echo "Canceled deletion"
+	fi
+}
+
+printHelpAndExit() {
+	cat <<-ENDOFHELP
+
+		Nscript - create and manage bash scripts
+
+		Usage:
+		    nscript [-adfhlos] <script name>
+
+		Flags:
+		    -a : Open the scripts folder in EDITOR (or NSCRIPT_EDITOR if the variable is defined)
+		    -f : Bypasses deletion prompt.  Only works with "-d"
+		    -l : List all scripts managed by nscript
+		    -h : Display this help message
+
+		Options:
+		    -d <script name> : Delete the named script. Will prompt for confirmation
+		    -o <script name> : Open the named script in EDITOR (or NSCRIPT_EDITOR if the variable is defined)
+		    -p <script name> : Print the named script to the standard output
+		    -r <old script name> <new script name> : Rename an existing script
+		    -s <script address> <script name> : Create a new script from an existing local or remote script
+
+		Examples:
+		    nscript mynewscript
+		    nscript -o mynewscript
+		    nscript -fd mynewscript
+		    nscript -s ~/path/to/local/script/mylocalcript.sh mynewscript
+		    nscript -s http//:example.com/path/to/remote/script/remotescript.sh mynewscript
+
+	ENDOFHELP
+
+	exit "$1"
+}
+
+# Set flags and options
+
+resetoptions() {
+	OPT_ALL=0
+	OPT_DELETE=""
+	OPT_LIST=0
+	OPT_OPEN=""
+	OPT_PRINT=""
+	OPT_RENAME=""
+	OPT_SOURCE=""
+}
+
+OPT_FORCE=0
+
+resetoptions
+
+while getopts "ad:fhlo:p:s:r:" FLAGS; do
+	case $FLAGS in
+		a) resetoptions && OPT_ALL=1 ;;
+		d) resetoptions && OPT_DELETE="${OPTARG}" ;;
+		f) OPT_FORCE=1 ;;
+		l) resetoptions && OPT_LIST=1 ;;
+		o) resetoptions && OPT_OPEN="${OPTARG}" ;;
+		p) resetoptions && OPT_PRINT="${OPTARG}" ;;
+		r) resetoptions && OPT_RENAME="${OPTARG}" ;;
+		s) resetoptions && OPT_SOURCE="${OPTARG}" ;;
+		h) printHelpAndExit 0;;
+	esac
+done
+
+shift $((OPTIND-1))
+
+SCRIPT_NAME="$1"
+
+# Branch from options
+## Opens all scripts in Sublime Text
+if [ "${OPT_ALL}" -gt 0 ] ; then
+	"${NSCRIPT_EDITOR}" "${NSCRIPT_SCRIPT_DIR}" && exit 0
+
+## Deletes the named script
+elif [ -n "${OPT_DELETE}" ] ; then
+	deletescript "${OPT_DELETE}" "${OPT_FORCE}" && exit 0
+
+## Prints a list of managed script names
+elif [ "${OPT_LIST}" -gt 0 ] ; then
+	find "${NSCRIPT_EXECUTABLE_DIR}" -lname "${NSCRIPT_SCRIPT_DIR}/*" | sed "s|${NSCRIPT_EXECUTABLE_DIR}/||g" && exit 0
+
+## Opens the named script
+elif [ -n "${OPT_OPEN}" ] ; then
+	"${NSCRIPT_EDITOR}" "${NSCRIPT_SCRIPT_DIR}/${OPT_OPEN}"* && exit 0
+
+## Print script contents to terminal
+elif [ -n "${OPT_PRINT}" ] ; then
+	cat "${NSCRIPT_SCRIPT_DIR}/${OPT_PRINT}" && exit 0
+
+## Renames the given script to the given argument value
+elif [ -n "${OPT_RENAME}" ] && [ -n "${SCRIPT_NAME}" ] ; then
+	createscript "${SCRIPT_NAME}" "$(cat "${NSCRIPT_SCRIPT_DIR}/${OPT_RENAME}")"
+	deletescript "${OPT_RENAME}" 1 && exit 0
+
+## Creates a new script from the given path, remote or local
+elif [ -n "${OPT_SOURCE}" ] && [ -n "${SCRIPT_NAME}" ] ; then
+
+	## Creates a new script from a local source file
+	if [ -f "${OPT_SOURCE}" ] ; then
+		createscript "${SCRIPT_NAME}" "$(cat "${OPT_SOURCE}")" && exit 0
+
+	## Creates a new script from a remote source file
+	elif [ "${OPT_SOURCE:0:4}" == "http" ] ; then
+		createscript "${SCRIPT_NAME}" "$(curl -sL "${OPT_SOURCE}")" && exit 0
+
+	## Creates a new script with default content (source file could not be found)
+	else
+		echo "Cannot find script from source location \"${OPT_SOURCE}\". Creating a new script with default content."
+		createscript "${SCRIPT_NAME}" && exit 0
+	fi
+
+## Creates a new script with default content
+elif [ -n "${SCRIPT_NAME}" ] ; then
+	createscript "${SCRIPT_NAME}" && exit 0
+
+## Displays help
+else
+	printHelpAndExit 1
+fi
