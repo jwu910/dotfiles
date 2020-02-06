@@ -1,0 +1,215 @@
+
+############################################
+## Liferay specific bashrc customizations ##
+############################################
+
+# ANT HOME
+export ANT_OPTS="-Xms512m -Xmx512m -Xmn256M -XX:PermSize=256M -XX:+UseConcMarkSweepGC -XX:-UseGCOverheadLimit"
+export JAVA_HOME="/opt/java/current"
+export CATALINA_OPTS="$CATALINA_OPTS -Duser.timezone=PST -Xmx2048m -XX:MaxMetaspaceSize=1024m"
+
+# Gradle Options
+export GRADLE_OPTS="-Xmx1024m -Xms256m -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError"
+
+LIFERAY_DIR=`find ~ -maxdepth 3 -type d -name 'liferay' -print -quit`
+
+# Alias - locate JSP files in portal portlet
+alias findjsp='for file in `git ls-files | grep -v init | grep .jsp` ; do echo -e " :: ${file##*/}\n$(cat $file)" > $file ; done'
+
+# Alias to start server/kill
+function runserver {
+  local repoRoot=$(git rev-parse --show-toplevel 2>/dev/null)
+  echo "Starting server..."
+  cd "$repoRoot" && bundles/tomcat*/bin/catalina.sh run
+}
+
+alias debugserver='./bundles/tomcat*/bin/catalina.sh jpda run'
+
+alias killserver='echo Killing Tomcat && kill -9 `ps aux | grep -v grep | grep tomcat | awk '"'"'{print $2}'"'"'`'
+
+alias rgcd='rungradle clean deploy'
+
+alias rootLevel="git rev-parse --show-toplevel 2>/dev/null"
+
+# Git Format Patch
+# Usage: fp <# of commits> <Commit Sha>
+# Example: `fp 3 34s3446e`
+function fp {
+  local dirPath=`find ~ -maxdepth 3 -type d -name 'liferay' -print -quit`
+  local fileCount=$(ls $dirPath/patch_files | wc -l)
+
+  if [ "$fileCount" -gt "0" ]; then
+    echo -e "\033[02;31mPatch folder already contains the following files:\033[01;00m"
+    ls "$dirPath"/patch_files | while read -r file; do echo -e "\033[03;33mFile: \033[01;00m$file"; done
+
+    while true; do
+      echo -e "Y to keep existing files and continue. H to clear existing files and continue. N to stop and exit."
+        read yn
+        case $yn in
+          [Yy]* )
+            ls "$dirPath"/patch_files | while read -r file; do
+              mv "$dirPath"/patch_files/"$file" "$dirPath"/patch_files/old-"$file"
+            done;
+
+            git format-patch -"$1" "$2" -o "$dirPath"/patch_files -q; break;;
+          [Hh]* ) dp && git format-patch -"$1" "$2" -o "$dirPath"/patch_files -q; break;;
+          [Nn]* ) echo "Selected No, Exiting."; return "0"; break;;
+              * ) echo "Invalid response.";
+        esac
+    done
+
+  else
+    git format-patch -"$1" "$2" -o "$dirPath"/patch_files -q || { dp; echo -e "\033[02;33mPatch files were not created. Check arguments and try again... Clearing any old patch files.\033[01;00m"; return; }
+  fi
+
+  echo -e "Patch files in $dirPath/patch_files/"
+  ls "$dirPath"/patch_files | while read -r file; do echo -e "\033[03;32mFile: \033[01;00m$file"; done
+  echo "Navigate to topic branch and run command 'ap' to apply patch."
+}
+
+function ap {
+  local dirPath=`find ~ -maxdepth 3 -type d -name 'liferay' -print -quit`
+  ls "$dirPath"/patch_files | while read -r file; do echo -e "\033[03;33mPending: \033[01;00m$file"; done
+
+  while true; do
+    echo "Would you like to apply these patch files? (Y/N)"
+    read yn
+    case $yn in
+          [Yy]* ) git am -3 /"$dirPath"/patch_files/*; echo -e "\033[00;33mIf there are merge conflicts, resolve in your text editor and use \033[00;32m'git am --continue', \033[00;31m'git am --abort', \033[00;00mor \033[00;33m'git am --skip'."; break;;
+          [Nn]* ) echo "Selected No, Exiting."; break;;
+          * ) echo "Invalid response.";
+    esac
+  done
+}
+
+function dp {
+  echo "Cleaning patch files."
+  local dirPath=`find ~ -maxdepth 3 -type d -name 'liferay' -print -quit`
+  ls "$dirPath"/patch_files | while read -r file; do echo -e "\033[03;31mRemoved: \033[00;00m$file" && rm -f "$dirPath"/patch_files/"$file"; done
+  echo "Patch files removed."
+}
+
+# Jack-cli formatted to use lse and lsc git aliases. Takes 2 arguments: search-string, [branch-name]
+function jlse {
+  if [ -n "$2" ] && [ -n "$1" ]; then
+    jack "$2" --stat --grep "$1" --pretty=format:'%C(yellow)%h%Creset %C(white)%s - %an%Creset (%C(green)%ar%Creset)';
+  elif [ -z "$2" ] && [ -n "$1" ]; then
+    jack --stat --grep "$1" --pretty=format:'%C(yellow)%h%Creset %C(white)%s - %an%Creset (%C(green)%ar%Creset)';
+  else
+    echo "Please pass at least one argument [search-string]. Example 'jlse LPS-99999 master'"
+  fi
+}
+
+function jlsc {
+  if [ -n "$2" ] && [ -n "$1" ]; then
+    jack "$2" --grep "$1" --pretty=format:'%C(yellow)%h%Creset %C(white)%s - %an%Creset (%C(green)%ar%Creset)';
+  elif [ -z "$2" ] && [ -n "$1" ]; then
+    jack --grep "$1" --pretty=format:'%C(yellow)%h%Creset %C(white)%s - %an%Creset (%C(green)%ar%Creset)';
+  else
+    echo "Please pass at least one argument [search-string]. Example 'jlse LPS-99999 master'"
+  fi
+}
+
+# Use node-gh to send PR
+# SendPR function for submitting pull requests through nodeGH relating to JIRA tickets
+function sendPR {
+    function help {
+      echo "SendPR expects <2> arguments: <github_username> and <branch>. Example: sendPR githubuser101 master"
+    }
+
+    if [ -z "$2" ] || [ -z "$1" ]; then
+      help
+      return 1
+    fi
+
+    local branch_name=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1)
+    gh pr -s "$1" -b "$2" -D "Hi @$1,<br><br>Attached is the fix for [$branch_name](http://issues.liferay.com/browse/$branch_name).<br><br>Let me know if you have any questions. Thanks."
+}
+
+function jira {
+    local branch_name=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1)
+    xdg-open https://issues.liferay.com/browse/"$branch_name" || open https://issues.liferay.com/browse/"$branch_name" || echo "Could not open Jira."
+}
+
+function lsl {
+  local src_dir="$LIFERAY_DIR/ee-6.2.x/liferay-plugins-ee/portlets/loop-portlet/docroot/js/dist"
+  local dst_dir="$LIFERAY_DIR/ee-6.2.x/bundles/tomcat-7.0.62/webapps/loop-portlet/js/dist"
+
+  for file in "$src_dir"/*; do
+    local filename=${file##*/}
+    local dst="$dst_dir/$filename"
+
+    [ -e "$dst" ] && rm "$dst"
+
+    echo "Linking $filename"
+    ln -f "$file" "$dst"
+  done
+}
+
+function lsl2 {
+  local src_dir="$LIFERAY_DIR/7.0.x-private/osb-loop/osb-loop-web/src/main/resources/META-INF/resources/js/dist"
+  local dst_dir="$LIFERAY_DIR/7.0.x-private/bundles/tomcat-8.0.32/webapps/loop-portlet/js/dist"
+
+  for file in "$src_dir"/*; do
+    local filename=${file##*/}
+    local dst="$dst_dir/$filename"
+
+    [ -e "$dst" ] && rm "$dst"
+
+    echo "Linking $filename"
+    ln -f "$file" "$dst"
+  done
+}
+
+function fixSql {
+  echo "SET SESSION sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';"
+  echo "SET GLOBAL sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';"
+  echo "ALTER TABLE loop_dxp.Repository MODIFY name VARCHAR(200);"
+
+}
+
+alias setMonitor="sh ~/configs/scripts/work-extended-primary.sh"
+alias i3config="vim ~/configs/i3/config"
+alias acd="ant clean deploy"
+alias bdd="npm run build:dev && rgcd -x npmRunBuild"
+alias rebuild="npm run build && git add src/main/resources/**/dist/* && git cims \"Rebuild\""
+alias buildLang="rungradle buildLang && git add src/main/resources/**/Language* && git cims \"Run gradle buildLang\""
+alias dstart="./gradlew startDxpCloudLocal"
+alias dstop="./gradlew stopDxpCloudLocal"
+
+function sfm {
+  if [ "$1" ]; then
+    git diff --stat --relative --name-only "$1".. | grep -E '.(js|(s)?css)$' | xargs check_sf;
+  else
+    echo -e "$fg_bold[red]Please choose a branch to compare changes to.$reset_color EG: sfm ee-6.2.x"
+  fi
+}
+
+#function java8 {
+#  sudo update-alternatives --set java /usr/lib/jvm/jdk8/bin/java;
+#  sudo update-alternatives --set javac /usr/lib/jvm/jdk8/bin/javac;
+#  export JAVA_HOME=/usr/lib/jvm/jdk8/jre;
+#  export JRE_HOME=/usr/lib/jvm/jdk8/jre;
+#}
+
+#function java7 {
+#  sudo update-alternatives --set java /usr/lib/jvm/jdk7/bin/java;
+#  sudo update-alternatives --set javac /usr/lib/jvm/jdk7/bin/javac;
+#  export JAVA_HOME=/usr/lib/jvm/jdk7;
+#  export JRE_HOME=/usr/lib/jvm/jdk7;
+#}
+
+function mod {
+  if [ -z "$1" ]; then
+    echo "Need to select a codemod."
+    return 1
+  fi
+
+  if [ "$1" = "autobind" ]; then
+    echo "Autobind codemod..."
+    codemod --extensions js -m "(\t(\_)?([A-z]{1,}))\s=\s((\()?([A-z]{0,}([,\sA-z\s=]{1,})?)(\))?)?\s=>\s\{" "\t@autobind\n\1(\6) {"
+  elif [ "$1" = "methods" ]; then
+    echo "Private methods..."
+    codemod --extensions js "(((?<=\.)|(?<=\s))(_)((?!query)\w+))" "\4_"
+  fi
+}

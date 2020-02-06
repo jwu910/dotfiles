@@ -1,0 +1,35 @@
+# Include file for node-gh aliases
+
+# send pr
+# list prs
+
+
+#send pr should fetch and update ee-6.2.x.
+#create a new branch from updated ee-6.2.x. get commits from current branch and mvoe them to new branch
+#run source formatting + tests 'did you'
+#push to origin
+#send pr
+
+function sync_latest() {
+  git fetch upstream "$2" -pv &&
+  git rebase -p "upstream/$2"
+}
+
+function sendPR() {
+  if [ $# -eq 0 ]; then
+    echo "No arguments provided."
+    echo "Please provide two arguments: <user_name> <branch_name>"
+    echo "Usage: sendPR user_name branch_name"
+    return
+  fi
+
+  local branch_name=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{4,}-)([0-9]+)' -m 1)
+
+  local current_branch=$(git brn)
+
+  didYou &&
+
+  gh pr -s "$1" -b "$2" --title "$current_branch" -D "Hi @$1, these are changes for [$branch_name](https://issues.liferay.com/browse/$branch_name). Thanks!"
+}
+
+
