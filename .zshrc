@@ -128,11 +128,23 @@ spaceship_wip() {
 SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 
 
+#######################################################################################
+# Custom loaders
+#######################################################################################
+
+
 
 
 #######################################################################################
-# Custom loaders
-#
+# Custom Functions
+######################################################################################
+
+# Warn if the current branch is a WIP
+function work_in_progress() {
+  if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-"); then
+    echo "WIP!!"
+  fi
+}
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -145,9 +157,11 @@ SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 
 # Exa replacement for ls
 # https://github.com/ogham/exa/releases/download/v0.9.0/exa-linux-x86_64-0.9.0.zip
-
 alias ls='exa --git'
 alias ll='ls -halF'
 alias la='ls -a'
 alias l='ls -F'
 
+# Work in pgrogress aliases
+alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
+alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign -m "--wip-- [skip ci]"'
