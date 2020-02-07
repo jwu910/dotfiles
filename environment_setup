@@ -1,0 +1,7 @@
+# Use this file to set environment variables pertaining to the dotfile setup script
+# All variables will be prefixed with DOTFILE_
+
+# This variable determines what shell to use and set up configurations for
+# Available options are "bash" or "zsh"
+DOTFILE_SHELL="zsh"
+
