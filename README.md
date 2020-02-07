@@ -4,6 +4,6 @@
 
 ## Installation
 ```
-./sh setup.sh
+./setup.sh
 ```
 Run setup script to start the interactive installation of the existing configuration files
