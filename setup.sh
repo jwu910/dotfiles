@@ -31,8 +31,7 @@ generateSymLink() {
             log "code" "ln -s $SOURCE $TARGET"
         fi
     else
-        [[ -f $SOURCE ]] && echo "hello" || echo "Bye"
-        echo "else $1"
+        log "error" "Nothing happend. Am I broken?"
     fi
 }
 
