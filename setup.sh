@@ -56,7 +56,10 @@ case $DOTFILE_SHELL in
         generateSymLink ".bashrc"
         ;;
     "zsh")
-        generateSymLink ".zshrc"
+        generateSymLink ".zshrc" &&
+        echo `git clone https://github.com/denysdovhan/spaceship-prompt.git \"\$ZSH_CUSTOM/themes/spaceship-prompt`\" &&
+        echo `ln -s \"\$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme\" \"\$ZSH_CUSTOM/themes/spaceship.zsh-theme\"`
+
         ;;
     *)
         log "error" "DOTFILE_SHELL variable does not match any valid shells for this setup. Options are \"bash\" or \"zsh\"."
