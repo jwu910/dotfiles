@@ -57,8 +57,8 @@ case $DOTFILE_SHELL in
         ;;
     "zsh")
         generateSymLink ".zshrc" &&
-        echo `git clone https://github.com/denysdovhan/spaceship-prompt.git \"\$ZSH_CUSTOM/themes/spaceship-prompt`\" &&
-        echo `ln -s \"\$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme\" \"\$ZSH_CUSTOM/themes/spaceship.zsh-theme\"`
+        echo "git clone https://github.com/denysdovhan/spaceship-prompt.git \"\$ZSH_CUSTOM/themes/spaceship-prompt\"" &&
+        echo "ln -s \"\$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme\" \"\$ZSH_CUSTOM/themes/spaceship.zsh-theme\""
 
         ;;
     *)
@@ -68,6 +68,9 @@ case $DOTFILE_SHELL in
         exit 1
         ;;
 esac
+
+generateSymLink ".gitconfig" &&
+generateSymLink ".vimrc"
 
 
 # Check if zsh installed
