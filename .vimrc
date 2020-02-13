@@ -24,12 +24,16 @@ Plug 'editorconfig/editorconfig-vim' " Editor Config
 Plug 'henrik/vim-indexed-search'
 Plug 'scrooloose/nerdtree' " Tree view file browser
 Plug 'tpope/vim-commentary' " Comment out lines with 'gcc'
+Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline' " Status bar for vim
 Plug 'w0rp/ale', { 'tag': 'v1.9.1' }
 Plug 'prettier/vim-prettier'
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+
+" Theme Installs
+Plug 'mhartington/oceanic-next'
 
 " ===== Add custom plugins above this line =====
 
@@ -41,8 +45,11 @@ filetype plugin indent on    " required
 "filetype plugin on
 
 " ===  Themes  ===
-" colorscheme
+if (has("termguicolors"))
+  set termguicolors
+endif
 
+colorscheme OceanicNext
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
@@ -126,8 +133,9 @@ set nofixendofline
 " Remove trailing whitespaces
 au BufWritePre * :%s/\s\+$//e
 
-" Set syntax to markdown for md files
+" Set syntax to file types files
 au BufNewFile,BufReadPost *.md set filetype=markdown
+au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
 
 " Set syntax to html for snapshots
 au BufReadPost *.snap set syntax=jsx
