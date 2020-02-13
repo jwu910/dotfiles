@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "This file is still WIP, uncomment the following line to run"
+exit 0
+
 log() {
     # Simmple logger function
     echo -e "[$1]: $2"
