@@ -5,3 +5,6 @@
 # Available options are "bash" or "zsh"
 DOTFILE_SHELL="zsh"
 
+# Determine where nscript managed scripts are stored
+# Must be a valid directory path
+DOTFILE_NSCRIPT_SCRIPT_DIR="/home/joshua/dotfiles/scripts"

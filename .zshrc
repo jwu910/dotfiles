@@ -1,3 +1,5 @@
+DOTFILE_DIR="$HOME/dotfiles"
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -165,3 +167,13 @@ alias l='ls -F'
 # Work in pgrogress aliases
 alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign -m "--wip-- [skip ci]"'
+
+# Liferay rebuild
+alias rebuild='npm run build && git add src/main/resources/**/dist/* && git cims Rebuild'
+
+
+export NSCRIPT_EDITOR="code"
+export NSCRIPT_SCRIPT_DIR="$DOTFILE_DIR/scripts"
+export NSCRIPT_EXECUTABLE_DIR="$DOTFILE_DIR/nscript-links"
+export PATH="$PATH:$NSCRIPT_EXECUTABLE_DIR"
+
