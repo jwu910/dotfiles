@@ -14,25 +14,28 @@ Plug 'pangloss/vim-javascript'
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 
-
-" Plug 'tpope/vim-fugitive'
+" Custom plugins
 Plug 'Valloric/YouCompleteMe' " Autocomplete
-Plug 'alvan/vim-closetag'
 Plug 'Yggdroot/indentline'
 Plug 'airblade/vim-gitgutter' " GitGutter for Vim
+Plug 'alvan/vim-closetag'
 Plug 'editorconfig/editorconfig-vim' " Editor Config
 Plug 'henrik/vim-indexed-search'
+Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree' " Tree view file browser
 Plug 'tpope/vim-commentary' " Comment out lines with 'gcc'
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline' " Status bar for vim
 Plug 'w0rp/ale', { 'tag': 'v1.9.1' }
-Plug 'prettier/vim-prettier'
+
+" Install fzf plugin
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
 " Theme Installs
+Plug 'larsbs/vimterial_dark'
+Plug 'dikiaap/minimalist'
 Plug 'mhartington/oceanic-next'
 
 " ===== Add custom plugins above this line =====
@@ -43,6 +46,8 @@ filetype plugin indent on    " required
 
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
+
+syntax on
 
 " ===  Themes  ===
 if (has("termguicolors"))
@@ -58,6 +63,16 @@ colorscheme OceanicNext
 
 " Ale
 highlight ALEError ctermbg=Blue
+
+let g:ale_fixers = {
+\    'javascript': ['eslint', 'prettier'],
+\    'typescript': ['prettier'],
+\    'vue': ['eslint'],
+\    'scss': ['prettier'],
+\    'html': ['prettier']
+\}
+let g:ale_fix_on_save = 1
+
 
 " Closetag
 let g:closetag_filenames = "*.html,*.xhtml,*.js,*.jsp,*.jsx,*.ts,*.tsx,*.xml"
@@ -79,7 +94,6 @@ map <C-P> :FZF<CR>
 " Indent Line
 let g:indentLine_char = '•'
 let g:indentLine_concealcursor = "c"
-let g:jsx_ext_required = 0
 
 " NerdTree
 let NERDTreeShowHidden = 1
@@ -98,8 +112,6 @@ let g:jsx_ext_required = 0
 " Vim Sort Motion
 let g:sort_motion_flags = "ui"
 
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""
 " General settings
 """""""""""""""""""""""""""""""""""""""""""""""""
@@ -107,7 +119,6 @@ let g:sort_motion_flags = "ui"
 nnoremap j jzz
 nnoremap k kzz
 
-syntax on
 
 set background=dark
 set shiftwidth=4
@@ -129,6 +140,10 @@ set nofixendofline
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Autorun configs
 """""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Autoreload file on change
+set autoread
+au WinEnter * checktime
 
 " Remove trailing whitespaces
 au BufWritePre * :%s/\s\+$//e
