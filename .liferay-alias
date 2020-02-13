@@ -110,55 +110,9 @@ function jlsc {
   fi
 }
 
-# Use node-gh to send PR
-# SendPR function for submitting pull requests through nodeGH relating to JIRA tickets
-function sendPR {
-    function help {
-      echo "SendPR expects <2> arguments: <github_username> and <branch>. Example: sendPR githubuser101 master"
-    }
-
-    if [ -z "$2" ] || [ -z "$1" ]; then
-      help
-      return 1
-    fi
-
-    local branch_name=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1)
-    gh pr -s "$1" -b "$2" -D "Hi @$1,<br><br>Attached is the fix for [$branch_name](http://issues.liferay.com/browse/$branch_name).<br><br>Let me know if you have any questions. Thanks."
-}
-
 function jira {
     local branch_name=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1)
     xdg-open https://issues.liferay.com/browse/"$branch_name" || open https://issues.liferay.com/browse/"$branch_name" || echo "Could not open Jira."
-}
-
-function lsl {
-  local src_dir="$LIFERAY_DIR/ee-6.2.x/liferay-plugins-ee/portlets/loop-portlet/docroot/js/dist"
-  local dst_dir="$LIFERAY_DIR/ee-6.2.x/bundles/tomcat-7.0.62/webapps/loop-portlet/js/dist"
-
-  for file in "$src_dir"/*; do
-    local filename=${file##*/}
-    local dst="$dst_dir/$filename"
-
-    [ -e "$dst" ] && rm "$dst"
-
-    echo "Linking $filename"
-    ln -f "$file" "$dst"
-  done
-}
-
-function lsl2 {
-  local src_dir="$LIFERAY_DIR/7.0.x-private/osb-loop/osb-loop-web/src/main/resources/META-INF/resources/js/dist"
-  local dst_dir="$LIFERAY_DIR/7.0.x-private/bundles/tomcat-8.0.32/webapps/loop-portlet/js/dist"
-
-  for file in "$src_dir"/*; do
-    local filename=${file##*/}
-    local dst="$dst_dir/$filename"
-
-    [ -e "$dst" ] && rm "$dst"
-
-    echo "Linking $filename"
-    ln -f "$file" "$dst"
-  done
 }
 
 function fixSql {
@@ -168,8 +122,6 @@ function fixSql {
 
 }
 
-alias setMonitor="sh ~/configs/scripts/work-extended-primary.sh"
-alias i3config="vim ~/configs/i3/config"
 alias acd="ant clean deploy"
 alias bdd="npm run build:dev && rgcd -x npmRunBuild"
 alias rebuild="npm run build && git add src/main/resources/**/dist/* && git cims \"Rebuild\""

@@ -34,8 +34,6 @@ Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
 " Theme Installs
-Plug 'larsbs/vimterial_dark'
-Plug 'dikiaap/minimalist'
 Plug 'mhartington/oceanic-next'
 
 " ===== Add custom plugins above this line =====
@@ -55,7 +53,6 @@ if (has("termguicolors"))
 endif
 
 colorscheme OceanicNext
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins Settings

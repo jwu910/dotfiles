@@ -162,7 +162,7 @@ fi
 
 # Shortcut to open bashrc
 alias brc="vim ~/.bashrc"
-alias brcl="vim ~/configs/includes/.bashrc-liferay"
+alias brcl="vim ~/dotfies/.liferay-alias"
 alias sbrc="source ~/.bashrc && echo '.bashrc reloaded.'"
 
 # Restart network manager
@@ -194,9 +194,7 @@ if [ -d "$HOME/.bin" ] ; then
   PATH="$PATH:$HOME/.bin"
 fi
 
-export BROWSER="/usr/bin/firefox"
-
-    # Git Gud
+# Git Gud
 function gitGud {
     echo "           /\$\$   /\$\$                                     /\$\$";
     echo "          |__/  | \$\$                                    | \$\$";
@@ -212,66 +210,21 @@ function gitGud {
 }
 export -f gitGud
 
-# Easy extract
-#extract () {
-#  if [ -f $1 ] ; then
-#      case $1 in
-#          *.tar.bz2)   tar xvjf $1    ;;
-#          *.tar.gz)    tar xvzf $1    ;;
-#          *.bz2)       bunzip2 $1     ;;
-#          *.rar)       rar x $1       ;;
-#          *.gz)        gunzip $1      ;;
-#          *.tar)       tar xvf $1     ;;
-#          *.tbz2)      tar xvjf $1    ;;
-#          *.tgz)       tar xvzf $1    ;;
-#          *.zip)       unzip $1       ;;
-#          *.Z)         uncompress $1  ;;
-#          *.7z)        7z x $1        ;;
-#          *)           echo "don't know how to extract '$1'..." ;;
-#      esac
-#  else
-#      echo "'$1' is not a valid file!"
-#  fi
-#}
-
 # Cd up N directories
 function cdn(){ for i in `seq $1`; do cd ..; done;}
 
-# Personal scripts path
-export PATH="$PATH:/home/joshua/configs/scripts"
 
 export TEXT_EDITOR="code"
 export LESS=-R
 
 
-source ~/configs/includes/.bashrc-liferay
-
-# Adding autocomplete for 'we'
-[ -f ~/.we_autocomplete ] && source ~/.we_autocomplete
-
-# Pacaur backup installed packages
-#echo "$(pacaur -Qqe)" > ~/configs/backup/backpac.txt
-
-# SSH Key login
-#if [ "$MACHINE_NAME" = "PERSONAL" ]; then
-#	eval $(keychain --eval --quiet ~/.ssh/id_rsa)
-#fi
+source ~/dotfiles/.liferay-alias
 
 function getJIRA(){ git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1 ; }
 
-
-#ACTIVE_MONITOR=`xrandr --listactivemonitors | grep 0 | awk '{print $NF}'`
-
-#if [ ! "$MONITOR_NAME" = "$TEMP_MONITOR" ]; then
-#    echo "Active monitor is not $MONITOR_NAME"
-#    echo "Active Monitor is currently $ACTIVE_MONITOR"
-#
-#    MONITOR_NAME="$ACTIVE_MONITOR"
-#fi
-
 export NSCRIPT_EDITOR="code"
-export NSCRIPT_SCRIPT_DIR="/home/joshua/configs/scripts/nscripts"
-export NSCRIPT_EXECUTABLE_DIR="/home/joshua/configs/scripts/nscripts-links"
+export NSCRIPT_SCRIPT_DIR="/home/joshua/dotfiles/scripts"
+export NSCRIPT_EXECUTABLE_DIR="/home/joshua/dotfiles/nscripts-links"
 
 eval "$(hub alias -s)"
 
@@ -334,8 +287,6 @@ function cleanBranch() { git pd "$1" && git db-all "$1" ; }
 export WORKON_HOME=$HOME/.virtualenvs
 source /usr/bin/virtualenvwrapper.sh
 
-
-export PATH="$PATH:$HOME/configs/scripts/nscripts-links"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
