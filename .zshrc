@@ -133,8 +133,8 @@ SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 #######################################################################################
 # Custom loaders
 #######################################################################################
-source ./.liferay-alias
-source ./.zsh-alias
+source ~/dotfiles/.liferay-alias
+source ~/dotfiles/.zsh-alias
 
 #######################################################################################
 # Custom Functions

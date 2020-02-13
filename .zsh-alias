@@ -4,11 +4,11 @@
 #################################################
 
 # fgst - pick files from `git status -s`
-is_in_git_repo() {
+function is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
 }
 
-fgst() {
+function fgst() {
   # "Nothing to see here, move along"
   is_in_git_repo || return
 
@@ -21,17 +21,17 @@ fgst() {
 }
 
 # List all node modules found recursively
-findNodeModules() {
+function findNodeModules() {
   find . -name "node_modules" -type d -prune -mtime +30 -print | xargs du -chs
 }
 
 # Pull down remote branch and then delete local and remote references
-cleanBranch() {
+function cleanBranch() {
   git pd "$1" && git db-all "$1";
 }
 
 # Get JIRA ticket pattern from branch name
-getJIRA() {
+function getJIRA() {
   git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1
 }
 
