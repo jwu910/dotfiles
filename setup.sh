@@ -39,7 +39,7 @@ source "./environment_setup"
 
 PROJECT_ROOT=$(git rev-parse --show-toplevel)
 
-SCRIPTS_PATH="$PROJECT_ROOT/scripta"
+SCRIPTS_PATH="$PROJECT_ROOT/scripts"
 
 # Check env variables for usage through setup; Determine what shell to use
 # Variable name: DOTFILE_SHELL
@@ -82,6 +82,5 @@ generateSymLink ".vimrc"
 # test -h file && do something if symlink || do something if not
 #if sym link exists at ~, then remove symlink and recreate with dotfile in this project
 #if symlink does not exist, but file exists, create a copy of that file with -backup filename and continue to create symlink
-# Check if Vundle and Vim are installed
 # Install diff-so-fancy
 
