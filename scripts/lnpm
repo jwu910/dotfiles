@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if git rev-parse --git-dir > /dev/null 2>&1; then
+	if [ ! -d "./node_modules" ]; then
+		echo "[node_modules/] does not exist. Have you run 'npm install' yet?"
+
+		exit 1
+	fi
+
+	if [ ! -d "./node_modules/$1" ]; then
+		echo "[$1] Does not exist in your current project. Check your spelling or make sure you have [$1] installed in this project."
+
+		exit 1
+	fi
+
+	if [ $# -eq 0 ]; then
+		echo ""
+		echo "    Usage:  lnpm node-package argument1 argument2 ...otherArguments"
+		echo "     Runs:  \$(npm bin)/node-package argument1 arugment2 argument3...etc"
+		echo ""
+
+		exit 1
+	fi
+
+	eval "$(npm bin)/$@"
+else
+	echo "Current directory is not a git repository."
+
+	exit 1
+fi

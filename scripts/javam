@@ -1,0 +1,7 @@
+#!/bin/bash
+
+archlinux-java status
+
+echo "==============================="
+echo "Usage:"
+echo "sudo archlinux-java set [choice]"

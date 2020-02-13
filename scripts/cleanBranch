@@ -1,0 +1,18 @@
+#!/bin/bash
+
+echo "This is echoing from cleanBranch"
+echo "Script file is at /home/joshua/configs/scripts/nscripts/cleanBranch"
+echo "Symlink is at /home/joshua/configs/scripts/nscripts-links/cleanBranch"
+
+echo "$@"
+for branch in "$@"
+do
+    IFS='/' read -ra item <<< "$branch"
+    echo "ITEM : $item[@]"
+    
+    for i in "${item[@]}"; do
+        echo "$i"
+        # process "$i"
+    done
+
+done

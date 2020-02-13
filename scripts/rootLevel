@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Get project root path
+git rev-parse --show-toplevel 2>/dev/null

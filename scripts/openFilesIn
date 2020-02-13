@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# Takes one optional argument [JIRA SHA NUM] in the format XXXX-0000. e.g. LOOP-1234.
+# Opens all files changed associated with JIRA SHA. If no argument is provided, JIRA SHA is attempted to be taken from branch name.
+
+### Check environment variable dependencies
+if [ -z "$TEXT_EDITOR" ]; then
+  echo "=========================================================================================="
+  echo "| Please set environment variable TEXT_EDITOR to your favorite non-terminal text editor. |"
+  echo "|                                                                                        |"
+  echo "| This can be set by adding the following lines to your terminal rc file:                |"
+  echo "|     export TEXT_EDITOR=\"subl\"                                                          |"
+  echo "=========================================================================================="
+fi
+### End check environment variable dependencies
+
+FILE_EDITOR=$TEXT_EDITOR
+MIN_THRESH=5
+SHA="$1"
+
+filesChanged() {
+  if [ "$#" -ge 0 ]; then
+    local argCount="$#"
+  else
+    local argCount=1
+  fi
+
+  git log --stat --name-only "$1" | grep -E ".(tag|jsp.?|vm|ftl|js|(s)?css)$" | sort | uniq
+}
+
+openFiles() {
+  local cwd=`pwd`
+  local repoRoot=$(git rev-parse --show-toplevel 2>/dev/null)
+
+  echo "Opening files."
+
+  cd "$repoRoot"
+  filesChanged "$SHA" | xargs "$FILE_EDITOR"
+  cd $cwd
+  exit 0
+}
+
+filesNotFound() {
+  echo "[error] $SHA was not found in branch log. openCommitsIn take's one optional argument [SHA-NUMBER] with the expectation"
+  echo "[error] that your branch commit message naming convention follows the standard of 'JIRA-SHA - Commit message'" 
+  echo "[error] - Is your SHA format '<XXXXX-0000>' e.g.: openCommitsIn LOOP-1234?"
+  echo "[error] - Are you on the correct branch?"
+  exit 1
+}
+
+# if [ -z "$1" ]; then
+#   SHA=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1)
+
+#   echo "No SHA entered, using branch name $SHA."
+# else
+#   if [[ $1 =~ ^([A-Z]{3,}-)([0-9]+)$ ]]; then
+#     SHA="$1"
+
+#     echo "Using $SHA"
+#   else
+#     echo "[$1] Was not a valid JIRA SHA. Please verify that SHA entered had no errors."
+#     SHA="[INVALID SHA]"
+
+#     filesNotFound
+#     return
+#   fi
+# fi
+
+FILES=$(filesChanged $SHA)
+FILES_COUNT=$(filesChanged $SHA | wc -l)
+
+if [ $FILES_COUNT -eq "0" ]; then
+  filesNotFound
+  return
+else
+  openFiles
+  return
+fi

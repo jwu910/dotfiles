@@ -1,0 +1,17 @@
+#!/bin/bash
+
+commitBranch=$(git log -1 --pretty=%B | grep -Eo '([A-Z]{2,}-)([0-9]+)')
+
+if [ -z commitBranch ]; then
+    echo "Could not find branch name in last commit"
+
+    exit 1
+else
+    echo -n "Rename current branch to $commitBranch? [y/n] > "
+    read confirmation
+
+    if [ "$confirmation" == "y" ]; then
+        echo "Changing current branch name to $commitBranch" &&
+        git branch -m "$commitBranch"
+    fi
+fi

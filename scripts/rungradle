@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Liferay run-gradle script to find gradle files in parent directories for portlet deployment
+
+# Rename settings.gradle temporarily
+if [ -e settings.gradle ]; then
+    mv settings.gradle settings.gradle.tmp
+fi
+
+# Run regular gradle commands
+root_level=$(git rev-parse --show-toplevel 2>/dev/null)
+
+if [[ -n "$root_level" && -f "$root_level/gradlew" ]]; then
+    root_level="$root_level/gradlew"
+else
+    root_level=$(which gradle)
+fi
+
+# Execute arguments as gradle commands
+"$root_level" $@
+
+if [ -e settings.gradle.tmp ]; then
+    mv settings.gradle.tmp settings.gradle
+fi

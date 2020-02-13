@@ -1,0 +1,51 @@
+#!/bin/bash
+
+if [[ -z "$EDITOR" ]] ; then
+	echo "Envrionment variable EDITOR is not set. Please add a perferred editor to your environment variable."
+
+	exit 1
+fi
+
+if [[ ! -z "$TEXT_EDITOR" ]]; then
+    EDITOR="$TEXT_EDITOR"
+fi
+
+if [ ! $(git rev-parse --is-inside-work-tree) ]; then
+	echo "Are you in the right place?"
+
+	exit 1
+fi
+
+CHANGES=$(git status --porcelain)
+ROOT_DIR=$(git rev-parse --show-toplevel)
+SEARCH=""
+
+if [[ ! -z "$1" ]] ; then
+	SEARCH="$1"
+fi
+
+FILE_COUNT=$(git status --porcelain | grep "$SEARCH" | awk '{print $2}' | wc -l)
+
+openFiles() {
+	cd "$ROOT_DIR" &&
+	git status --porcelain | grep "$SEARCH" | awk '{print $2}' | xargs "$EDITOR"
+}
+
+if [[ "$FILE_COUNT" -eq 0 ]] ; then
+	echo "No files found."
+	echo "Did you grep correctly?"
+
+	exit 1
+else
+	# Prompt for confirmation
+	echo "$CHANGES" | grep "$SEARCH"
+	read -rsn 1 -p "You are about to open $FILE_COUNT files with your editor \"$EDITOR\". [Type \"Y\" to confirm]: " CONFIRM
+
+	if [ "$CONFIRM" == "Y" ] ; then
+		openFiles
+	else
+		echo "Cancelled opening files."
+
+		exit 1
+	fi
+fi

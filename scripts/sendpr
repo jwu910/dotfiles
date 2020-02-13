@@ -1,0 +1,53 @@
+#!/bin/bash
+
+
+branch=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{2,}-)([0-9]+)' -m 1)
+number=""
+
+if [ -z $(command -v gh) ]; then
+    echo "This script is dependent on having node-gh installed."
+    echo "Install node-gh and try again. `npm i -g gh`"
+
+    exit 1
+fi
+
+if [ -z branch ]; then
+    echo "Could not find branch matching ticket pattern."
+
+    exit 1
+else
+    echo -n "Send PR to who? [enter] "
+    read user
+
+    echo -n "Against what branch? (default master) [enter] "
+    read target
+
+    echo -n "Anything else to say? [enter] "
+    read description
+
+    echo -n "PR number to close? (default none) [enter] "
+    read number
+
+    if [ -z "$target" ]; then
+        target="master"
+    fi
+
+    if [ -n "$user" ]; then
+        echo -n "Send PR to \"$user\" with title \"$branch\" and description \"$description\" against branch \"$target\"? (default y) [y/n] > "
+        read confirmation
+
+        if [ "$confirmation" == "y" ] || [ "$confirmation" != "n" ]; then
+            echo "Sending PR to $user..." &&
+            export PR_NUMBER="$number" && gh pr -s "$user" -b "$target" -t "$branch" -D "Here is an update for [$branch](https://issues.liferay.com/browse/$branch).<br /><br />$description <br /><br />Please let me know if you have any questions, thanks!" &&
+            echo "Done sending PR"
+
+            export PR_NUMBER=""
+
+            exit 0
+        fi
+    else
+        echo "[ERROR]: Must provide a valid username to send PR to."
+
+        exit 1
+    fi
+fi
