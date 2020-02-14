@@ -2,6 +2,8 @@
 #################################################
 # Custom functions
 #################################################
+DOTFILES="$HOME/dotfiles"
+ALIAS_DIR="$DOTFILES/alias"
 
 # fgst - pick files from `git status -s`
 function is_in_git_repo() {
@@ -36,8 +38,9 @@ function getJIRA() {
 }
 
 
+#################################################
 # Custom Aliases
-#
+#################################################
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -57,7 +60,6 @@ alias odiff="git diff upstream/master --stat --name-only --relative"
 alias pzf="fzf --preview-window=top --preview='head -100 | bat --theme=zenburn --color=always --map-syntax js:babel {}'"
 alias restartnetwork="sudo systemctl restart NetworkManager.service && echo Network manager restarting..."
 alias tr3="tree -d -L 3 -I node_modules"
-
-
-
+alias zrc="vim $DOTFILES/.zshrc"
+alias zrca="vim $ALIAS_DIR/.zsh-alias"
 

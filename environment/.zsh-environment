@@ -1,0 +1,7 @@
+export FZF_DEFAULT_COMMAND='rg --files --hidden -s'
+
+export NSCRIPT_EDITOR="code"
+export NSCRIPT_SCRIPT_DIR="$DOTFILE_DIR/scripts"
+export NSCRIPT_EXECUTABLE_DIR="$DOTFILE_DIR/nscript-links"
+export PATH="$PATH:$NSCRIPT_EXECUTABLE_DIR"
+

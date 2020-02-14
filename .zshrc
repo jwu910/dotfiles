@@ -110,6 +110,13 @@ SPACESHIP_WIP_SYMBOL="${SPACESHIP_WIP_SYMBOL="🚧 "}"
 SPACESHIP_WIP_TEXT="${SPACESHIP_WIP_TEXT="WIP!!! "}"
 SPACESHIP_WIP_COLOR="${SPACESHIP_WIP_COLOR="red"}"
 
+# Warn if the current branch is a WIP
+function work_in_progress() {
+  if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-"); then
+    echo "WIP!!"
+  fi
+}
+
 spaceship_wip() {
   [[ $SPACESHIP_WIP_SHOW == false ]] && return
 
@@ -133,20 +140,19 @@ SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 #######################################################################################
 # Custom loaders
 #######################################################################################
-source ~/dotfiles/.liferay-alias
-source ~/dotfiles/.zsh-alias
+ALIAS_DIR="$DOTFILE_DIR/alias"
+ENV_DIR="$DOTFILE_DIR/environment"
+
+source $ALIAS_DIR/.general-alias
+source $ALIAS_DIR/.liferay-alias
+source $ALIAS_DIR/.zsh-alias
+source $ENV_DIR/.zsh-environment
+source $ENV_DIR/.liferay-environment
+
 
 #######################################################################################
 # Custom Functions
 ######################################################################################
-
-# Warn if the current branch is a WIP
-function work_in_progress() {
-  if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-"); then
-    echo "WIP!!"
-  fi
-}
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -155,10 +161,4 @@ function work_in_progress() {
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-
-export NSCRIPT_EDITOR="code"
-export NSCRIPT_SCRIPT_DIR="$DOTFILE_DIR/scripts"
-export NSCRIPT_EXECUTABLE_DIR="$DOTFILE_DIR/nscript-links"
-export PATH="$PATH:$NSCRIPT_EXECUTABLE_DIR"
 

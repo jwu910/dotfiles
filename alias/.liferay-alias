@@ -2,15 +2,6 @@
 ############################################
 ## Liferay specific bashrc customizations ##
 ############################################
-
-# ANT HOME
-export ANT_OPTS="-Xms512m -Xmx512m -Xmn256M -XX:PermSize=256M -XX:+UseConcMarkSweepGC -XX:-UseGCOverheadLimit"
-export JAVA_HOME="/opt/java/current"
-export CATALINA_OPTS="$CATALINA_OPTS -Duser.timezone=PST -Xmx2048m -XX:MaxMetaspaceSize=1024m"
-
-# Gradle Options
-export GRADLE_OPTS="-Xmx1024m -Xms256m -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError"
-
 LIFERAY_DIR=`find ~ -maxdepth 3 -type d -name 'liferay' -print -quit`
 
 # Alias - locate JSP files in portal portlet
@@ -24,11 +15,10 @@ function runserver {
 }
 
 alias debugserver='./bundles/tomcat*/bin/catalina.sh jpda run'
-
 alias killserver='echo Killing Tomcat && kill -9 `ps aux | grep -v grep | grep tomcat | awk '"'"'{print $2}'"'"'`'
 
-alias rgcd='rungradle clean deploy'
 
+alias rgcd='rungradle clean deploy'
 alias rootLevel="git rev-parse --show-toplevel 2>/dev/null"
 
 # Git Format Patch

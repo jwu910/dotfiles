@@ -149,6 +149,8 @@ au BufWritePre * :%s/\s\+$//e
 au BufNewFile,BufReadPost *.md set filetype=markdown
 au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
 au BufRead,BufNewFile *.ftl set filetype=html
+au BufRead,BufNewFile *.*-alias set filetype=sh
+au BufRead,BufNewFile *.*-environment set filetype=sh
 
 " Set syntax to html for snapshots
 au BufReadPost *.snap set syntax=jsx
