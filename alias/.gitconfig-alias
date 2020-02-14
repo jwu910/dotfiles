@@ -17,7 +17,7 @@
 	ticket = "!f() { git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{2,}-)([0-9]+)' -m 1 ; }; f"
 
 	# Rename current branch
-	rnb = "!f() { git branch -m $1 && echo Branch renamed to $1; }; f"
+	rnb = "!f() { git branch -m $1 && echo $EMO_CHEER Branch renamed to $1; }; f"
 
 	# Status
 	st = status

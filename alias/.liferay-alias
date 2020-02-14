@@ -10,7 +10,7 @@ alias findjsp='for file in `git ls-files | grep -v init | grep .jsp` ; do echo -
 # Alias to start server/kill
 function runserver {
   local repoRoot=$(git rev-parse --show-toplevel 2>/dev/null)
-  echo "Starting server..."
+  echo "Starting server...$EMO_CHEER"
   cd "$repoRoot" && bundles/tomcat*/bin/catalina.sh run
 }
 
@@ -102,7 +102,7 @@ function jlsc {
 
 function jira {
     local branch_name=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1)
-    xdg-open https://issues.liferay.com/browse/"$branch_name" || open https://issues.liferay.com/browse/"$branch_name" || echo "Could not open Jira."
+    xdg-open https://issues.liferay.com/browse/"$branch_name" || open https://issues.liferay.com/browse/"$branch_name" || echo "Could not open Jira. $EMO_DISAPPROVAL"
 }
 
 function fixSql {
@@ -141,17 +141,17 @@ function sfm {
 #  export JRE_HOME=/usr/lib/jvm/jdk7;
 #}
 
-function mod {
-  if [ -z "$1" ]; then
-    echo "Need to select a codemod."
-    return 1
-  fi
+# function mod {
+#   if [ -z "$1" ]; then
+#     echo "Need to select a codemod."
+#     return 1
+#   fi
 
-  if [ "$1" = "autobind" ]; then
-    echo "Autobind codemod..."
-    codemod --extensions js -m "(\t(\_)?([A-z]{1,}))\s=\s((\()?([A-z]{0,}([,\sA-z\s=]{1,})?)(\))?)?\s=>\s\{" "\t@autobind\n\1(\6) {"
-  elif [ "$1" = "methods" ]; then
-    echo "Private methods..."
-    codemod --extensions js "(((?<=\.)|(?<=\s))(_)((?!query)\w+))" "\4_"
-  fi
-}
+#   if [ "$1" = "autobind" ]; then
+#     echo "Autobind codemod..."
+#     codemod --extensions js -m "(\t(\_)?([A-z]{1,}))\s=\s((\()?([A-z]{0,}([,\sA-z\s=]{1,})?)(\))?)?\s=>\s\{" "\t@autobind\n\1(\6) {"
+#   elif [ "$1" = "methods" ]; then
+#     echo "Private methods..."
+#     codemod --extensions js "(((?<=\.)|(?<=\s))(_)((?!query)\w+))" "\4_"
+#   fi
+# }
