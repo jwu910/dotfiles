@@ -148,6 +148,7 @@ source $ALIAS_DIR/.liferay-alias
 source $ALIAS_DIR/.zsh-alias
 source $ENV_DIR/.zsh-environment
 source $ENV_DIR/.liferay-environment
+source $ENV_DIR/.general-environment
 
 
 #######################################################################################

@@ -147,12 +147,10 @@ au BufWritePre * :%s/\s\+$//e
 
 " Set syntax to file types files
 au BufNewFile,BufReadPost *.md set filetype=markdown
-au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
-au BufRead,BufNewFile *.ftl set filetype=html
 au BufRead,BufNewFile *.*-alias set filetype=sh
 au BufRead,BufNewFile *.*-environment set filetype=sh
-
-" Set syntax to html for snapshots
+au BufRead,BufNewFile *.ftl set filetype=html
+au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
 au BufReadPost *.snap set syntax=jsx
 
 " Prettier auto-format before saving async
