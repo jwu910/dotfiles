@@ -1,0 +1,4 @@
+#!/bin/bash
+
+polybarStart &
+feh --randomize --bg-fill ~/Pictures/* &
