@@ -10,9 +10,10 @@ call plug#begin('~/.vim/plugged')
 
 " Syntax Files
 Plug 'cakebaker/scss-syntax.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
 Plug 'yuezk/vim-js'
-Plug 'maxmellon/vim-jsx-pretty'
 
 " Custom plugins
 Plug 'Valloric/YouCompleteMe' " Autocomplete
