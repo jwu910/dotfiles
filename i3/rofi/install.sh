@@ -1,6 +1,17 @@
 #!/bin/bash
 
-[ ! -d "$HOME/.config/rofi" ] && mkdir "$HOME/.config/rofi"
+APP="rofi"
+FILE_NAME="config"
+CONFIG_DIR="$HOME/.config"
+DOTFILE_DIR="$HOME/dotfiles"
 
-ln -s $HOME/dotfiles/i3/rofi/config ~/.config/rofi/config
+DOTFILE_APP_DIR="$DOTFILE_DIR/i3/$APP"
 
+[ ! -d "$CONFIG_DIR/$APP" ] && mkdir "$CONFIG_DIR/$APP"
+
+if [[ -L "$CONFIG_DIR/$APP/$FILE_NAME" || -f "$CONFIG_DIR/$APP/$FILE_NAME" ]]; then
+    rm $CONFIG_DIR/$APP/$FILE_NAME &&
+    ln -s $DOTFILE_APP_DIR/$FILE_NAME $CONFIG_DIR/$APP/$FILE_NAME
+else
+    ln -s $DOTFILE_APP_DIR/$FILE_NAME $CONFIG_DIR/$APP/$FILE_NAME
+fi

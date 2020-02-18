@@ -1,7 +1,7 @@
 #!/bin/bash
 
-APP="dunst"
-FILE_NAME="dunstrc"
+APP="polybar"
+FILE_NAME="config"
 CONFIG_DIR="$HOME/.config"
 DOTFILE_DIR="$HOME/dotfiles"
 

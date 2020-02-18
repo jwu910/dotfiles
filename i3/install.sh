@@ -1,11 +1,11 @@
 #!/bin/bash
 
-APP="dunst"
-FILE_NAME="dunstrc"
+APP="i3"
+FILE_NAME="config"
 CONFIG_DIR="$HOME/.config"
 DOTFILE_DIR="$HOME/dotfiles"
 
-DOTFILE_APP_DIR="$DOTFILE_DIR/i3/$APP"
+DOTFILE_APP_DIR="$DOTFILE_DIR/$APP"
 
 [ ! -d "$CONFIG_DIR/$APP" ] && mkdir "$CONFIG_DIR/$APP"
 

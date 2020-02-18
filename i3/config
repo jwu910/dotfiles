@@ -213,7 +213,7 @@ bindsym Shift+Print exec "scrot /tmp/screenshot-$(date +%F_%T).png -e 'xclip -se
 bindsym $mod+space exec rofi -show run -font $FONT
 
 # Lock screen
-bindsym $mod+Shift+p exec "python ~/dotfiles/i3/py3lock/py3lock.py"
+bindsym $mod+Shift+p exec "python py3lock.py"
 
 ##############################################################################
 # Media Key Bindings
@@ -249,6 +249,7 @@ exec --no-startup-id exec dockedWork
 exec --no-startup-id exec compton -bcCfG --detect-client-opacity --fade-delta=5 --shadow-opacity=0.5 --shadow-offset-x=-1 --shadow-offset-y=-1 &
 exec --no-startup-id exec dunst -config ~/.config/dunst/dunstrc &
 exec --no-startup-id exec nm-applet
+exec --no-startup-id exec blueman-applet
 
 exec guake
 exec nitrogen --restore &
