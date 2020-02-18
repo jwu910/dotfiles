@@ -5,8 +5,8 @@
 #######################################################################
 
 # Theme variables
-set $FONT pango:Source Code Pro 12
-set $BORDER_SIZE 1
+set $FONT "pango:Noto Sans 8"
+set $BORDER_SIZE 4
 
 set $bg_active                  #FD9226
 set $bg_inactive                #1E4056
@@ -24,6 +24,7 @@ set $bg_inactive_workspace      #1E4056
 
 set $bg_bar                     #383E47AA
 set $indicator                  #03C0FF
+
 # Font
 font $FONT
 
@@ -42,12 +43,20 @@ client.focused_inactive $border_inactive    $bg_inactive        $text_inactive  
 client.urgent           $border_urgent      $bg_urgent          $text-color          $border_urgent
 client.placeholder      $border_inactive    $bg_inactive        $text_inactive       $border_inactive
 
+client.focused              #bf616a #2f343f #d8dee8 #bf616a #d8dee8
+client.focused_inactive     #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.unfocused            #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.urgent               #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.placeholder          #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.background           #2f343f
+
 #######################################################################
 # i3 Keybindings
 #######################################################################
 
 # set mod key to alt
 set $mod Mod4
+set $alt Mod1
 
 # set navigation keys to vim key bindings
 set $up k
@@ -196,20 +205,24 @@ mouse_warping none
 # General Bindings
 ##############################################################################
 
-# Print screen
-#bindsym Print exec "scrshot"
+# Screenshots
+bindsym Print --release exec "scrot -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+bindsym Shift+Print exec "scrot /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
 
 # Rofi
-bindsym $mod+space exec rofi -show run
+bindsym $mod+space exec rofi -show run -font $FONT
 
 # Lock screen
-bindsym $mod+Shift+p exec py3lock
+bindsym $mod+Shift+p exec "python ~/dotfiles/i3/py3lock/py3lock.py"
 
 ##############################################################################
 # Media Key Bindings
 ##############################################################################
 
 # Pulse Audio Controls
+bindsym $mod+$alt+Up exec --no-startup-id amixer -D pulse sset Master 5%+
+bindsym $mod+$alt+Down exec --no-startup-id amixer -D pulse sset Master 5%-
+
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+ #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle # mute sound
@@ -219,6 +232,10 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
 
 # Media player controls
+bindsym $mod+$alt+space exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+bindsym $mod+$alt+Right exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+bindsym $mod+$alt+Left exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+
 bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
@@ -228,12 +245,11 @@ bindsym XF86AudioPrev exec playerctl previous
 # Startup Programs
 ##############################################################################
 
+exec --no-startup-id exec dockedWork
 exec --no-startup-id exec compton -bcCfG --detect-client-opacity --fade-delta=5 --shadow-opacity=0.5 --shadow-offset-x=-1 --shadow-offset-y=-1 &
-# exec --no-startup-id exec dunst -config ~/.config/dunst/dunstrc &
+exec --no-startup-id exec dunst -config ~/.config/dunst/dunstrc &
 exec --no-startup-id exec nm-applet
 
 exec guake
 exec nitrogen --restore &
 exec redshift -l 34.132268:-117.961578
-
-exec --no-startup-id "sh ~/dotfiles/scripts/starti3"

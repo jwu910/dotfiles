@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python
 
 import os
 import xcffib
@@ -8,7 +8,7 @@ from PIL import Image
 XCB_MAP_STATE_VIEWABLE = 2
 
 def screenshot():
-  os.system('import -window root /tmp/.i3lock.png')
+  os.system('scrot ".i3lock.png" -e "mv .i3lock.png /tmp/.i3lock.png"')
 
 def xcb_fetch_windows():
   """ Returns an array of rects of currently visible windows. """
