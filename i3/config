@@ -213,7 +213,8 @@ bindsym Shift+Print exec "scrot /tmp/screenshot-$(date +%F_%T).png -e 'xclip -se
 bindsym $mod+space exec rofi -show run -font $FONT
 
 # Lock screen
-bindsym $mod+Shift+p exec "python py3lock.py"
+# Have to use relative path. Python executables on the path do not work -- hopefully can find work around
+bindsym $mod+Shift+p exec "python ~/dotfiles/i3/py3lock/py3lock.py"
 
 ##############################################################################
 # Media Key Bindings
