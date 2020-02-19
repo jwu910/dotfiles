@@ -23,6 +23,7 @@ Plug 'alvan/vim-closetag'
 Plug 'editorconfig/editorconfig-vim' " Editor Config
 Plug 'henrik/vim-indexed-search'
 Plug 'prettier/vim-prettier'
+Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdtree' " Tree view file browser
 Plug 'tpope/vim-commentary' " Comment out lines with 'gcc'
 Plug 'tpope/vim-fugitive' " Git wrapper
