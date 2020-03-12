@@ -51,7 +51,7 @@ syntax on
 
 " ===  Themes  ===
 if (has("termguicolors"))
-  set termguicolors
+	set termguicolors
 endif
 
 colorscheme OceanicNext
@@ -64,27 +64,27 @@ colorscheme OceanicNext
 highlight ALEError ctermbg=Blue
 
 let g:ale_fixers = {
-\    'javascript': ['eslint', 'prettier'],
-\    'typescript': ['prettier'],
-\    'vue': ['eslint'],
-\    'scss': ['prettier'],
-\    'html': ['prettier']
-\}
+			\    'javascript': ['eslint', 'prettier'],
+			\    'typescript': ['prettier'],
+			\    'vue': ['eslint'],
+			\    'scss': ['prettier'],
+			\    'html': ['prettier']
+			\}
 let g:ale_fix_on_save = 1
 
 
 " Closetag
 let g:closetag_filenames = "*.html,*.xhtml,*.js,*.jsp,*.jsx,*.ts,*.tsx,*.xml"
 let g:mta_filetypes = {
-  \ 'html' : 1,
-  \ 'xhtml': 1,
-  \ 'xml' : 1,
-  \ 'js' : 1,
-  \ 'jsx' : 1,
-  \ 'jsp': 1,
-  \ 'ts': 1,
-  \ 'tsx': 1
-  \}
+			\ 'html' : 1,
+			\ 'xhtml': 1,
+			\ 'xml' : 1,
+			\ 'js' : 1,
+			\ 'jsx' : 1,
+			\ 'jsp': 1,
+			\ 'ts': 1,
+			\ 'tsx': 1
+			\}
 
 " fzf
 let g:fzf_layout = { 'down': '~20%' }
@@ -120,9 +120,6 @@ nnoremap k kzz
 
 
 set background=dark
-set shiftwidth=4
-set tabstop=4
-set expandtab
 set hlsearch
 set mouse=a
 set number
@@ -130,11 +127,15 @@ set lazyredraw
 set relativenumber
 set splitbelow
 set splitright
-set sts=2
 set ttymouse=sgr
 set cursorline
 set nofixendofline
 
+" Use tabs instead of spaces
+set shiftwidth=4
+set tabstop=4
+set sts=4
+set noexpandtab
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Autorun configs
