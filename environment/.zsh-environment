@@ -5,3 +5,8 @@ export NSCRIPT_SCRIPT_DIR="$DOTFILE_DIR/scripts"
 export NSCRIPT_EXECUTABLE_DIR="$DOTFILE_DIR/nscript-links"
 export PATH="$PATH:$NSCRIPT_EXECUTABLE_DIR"
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
