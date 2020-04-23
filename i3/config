@@ -8,33 +8,33 @@
 set $FONT "pango:Noto Sans 8"
 set $BORDER_SIZE 4
 
-set $bg_active                  #FD9226
-set $bg_inactive                #1E4056
-set $bg_urgent                  #FF2800
+set $bg_active #FD9226
+set $bg_inactive #1E4056
+set $bg_urgent #FF2800
 
-set $border_active              #1CB4C2
-set $border_inactive            $bg_inactive
-set $border_urgent              #B27B78
+set $border_active #1CB4C2
+set $border_inactive $bg_inactive
+set $border_urgent #B27B78
 
-set $text_active                #FDFEFF
-set $text_inactive              #212121
+set $text_active #FDFEFF
+set $text_inactive #212121
 
-set $bg_active_workspace        #265073
-set $bg_inactive_workspace      #1E4056
+set $bg_active_workspace #265073
+set $bg_inactive_workspace #1E4056
 
-set $bg_bar                     #383E47AA
-set $indicator                  #03C0FF
+set $bg_bar #383E47AA
+set $indicator #03C0FF
 
 # Font
 font $FONT
 
 # Gap size
-gaps inner 20
+#gaps inner 20
 
 # Borders
 for_window [class="^.*"] border pixel $BORDER_SIZE
 
-for_window [class="^Gnome-terminal$"] border pixel $BORDER_SIZE
+for_window [class="^*-terminal$"] border pixel $BORDER_SIZE
 
 # Appearance            border              background          text                 indicator
 client.focused          $border_active      $bg_active          $text_active         $border_active
@@ -43,12 +43,23 @@ client.focused_inactive $border_inactive    $bg_inactive        $text_inactive  
 client.urgent           $border_urgent      $bg_urgent          $text-color          $border_urgent
 client.placeholder      $border_inactive    $bg_inactive        $text_inactive       $border_inactive
 
-client.focused              #bf616a #2f343f #d8dee8 #bf616a #d8dee8
-client.focused_inactive     #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.unfocused            #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.urgent               #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.placeholder          #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.background           #2f343f
+# client.focused              #bf616a #2f343f #d8dee8 #bf616a #d8dee8
+# client.focused_inactive     #2f343f #2f343f #d8dee8 #2f343f #2f343f
+# client.unfocused            #2f343f #2f343f #d8dee8 #2f343f #2f343f
+# client.urgent               #2f343f #2f343f #d8dee8 #2f343f #2f343f
+# client.placeholder          #2f343f #2f343f #d8dee8 #2f343f #2f343f
+# client.background           #2f343f
+
+#######################################################################
+# i3 Bar Config
+#######################################################################
+
+bar {
+	id bar-1
+	status_command i3blocks
+	position top
+	# separator_symbol "]["
+}
 
 #######################################################################
 # i3 Keybindings
