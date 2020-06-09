@@ -1,6 +1,7 @@
 # ANT HOME
 export ANT_OPTS="-Xms511m -Xmx512m -Xmn256M -XX:PermSize=256M -XX:+UseConcMarkSweepGC -XX:-UseGCOverheadLimit"
-export JAVA_HOME="/opt/java/current"
+export JAVA_HOME="/usr/lib/jvm/default"
+#export JAVA_HOME="/opt/java/current"
 export CATALINA_OPTS="$CATALINA_OPTS -Duser.timezone=PST -Xmx2047m -XX:MaxMetaspaceSize=1024m"
 
 # Gradle Options
