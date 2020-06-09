@@ -9,7 +9,6 @@
 	path = dotfiles/alias/.gitconfig-alias
 [includeIf "gitdir:~/"]
 	path = dotfiles/.gitconfig-personal
-	path = dotfiles/.signkey
 [includeIf "gitdir:**/liferay/"]
 	path = dotfiles/.gitconfig-work
 [color "diff-highlight"]
