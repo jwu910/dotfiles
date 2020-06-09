@@ -7,9 +7,9 @@
 	ui = true
 [include]
 	path = dotfiles/alias/.gitconfig-alias
-[includeIf "gitdir:~/"]
+[includeIf "gitdir:**/*"]
 	path = dotfiles/.gitconfig-personal
-[includeIf "gitdir:**/liferay/"]
+[includeIf "gitdir:**/pollyex/"]
 	path = dotfiles/.gitconfig-work
 [color "diff-highlight"]
 	oldNormal = red bold
@@ -32,5 +32,7 @@
 [receive]
 	certNonceSeed = true
 [user]
-	email = joshua.wu.0910@gmail.com
+	email = joshua@pollyex.com
 	name = Joshua Wu
+[init]
+	defaultBranch = main

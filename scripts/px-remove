@@ -1,0 +1,17 @@
+#!/bin/bash
+
+removepre="px-"
+removesuf="-icon"
+
+for file in $@
+do 
+filename="$file"
+filename="${filename#"$removepre"}"
+extension="${filename##*.}"            ### store extension in a variable.
+filename="${filename%.*}"              ### remove extension.
+filename="${filename%"$removesuf"}"    ### remove suffix.
+filename="$filename.$extension"        ### re-place the extension
+echo "$file => $filename"
+mv $file $filename
+
+done
