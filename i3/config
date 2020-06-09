@@ -29,7 +29,7 @@ set $indicator #03C0FF
 font $FONT
 
 # Gap size
-#gaps inner 20
+gaps inner 20
 
 # Borders
 for_window [class="^.*"] border pixel $BORDER_SIZE
@@ -79,7 +79,7 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec x-terminal-emulator
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -217,8 +217,8 @@ mouse_warping none
 ##############################################################################
 
 # Screenshots
-bindsym Print --release exec "scrot -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
-bindsym Shift+Print exec "scrot /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+bindsym Shift+Print --release exec "scrot -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+bindsym Print exec "scrot /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
 
 # Rofi
 bindsym $mod+space exec rofi -show run -font $FONT
