@@ -142,6 +142,7 @@ SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 #######################################################################################
 ALIAS_DIR="$DOTFILE_DIR/alias"
 ENV_DIR="$DOTFILE_DIR/environment"
+HOSTNAME="$(uname -n)"
 
 #source $ALIAS_DIR/.liferay-alias
 #source $ENV_DIR/.liferay-environment
@@ -152,6 +153,11 @@ source $DOTFILE_DIR/.generalrc
 source $ENV_DIR/.general-environment
 source $ENV_DIR/.pollyex-environment
 source $ENV_DIR/.zsh-environment
+
+# enable keychain
+if [ -f $HOME/.keychain/$HOSTNAME-sh ]; then
+source $HOME/.keychain/$HOSTNAME-sh
+fi
 
 #######################################################################################
 # Custom Functions
