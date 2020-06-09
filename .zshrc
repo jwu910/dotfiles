@@ -164,3 +164,22 @@ source $ENV_DIR/.general-environment
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+# The following lines were added by compinstall
+
+zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
+zstyle :compinstall filename '/home/joshua/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=2000
+SAVEHIST=5000
+setopt beep nomatch notify
+bindkey -e
+# End of lines configured by zsh-newuser-install
+#
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
