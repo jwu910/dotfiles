@@ -41,13 +41,13 @@ CASE_SENSITIVE="true"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -149,7 +149,7 @@ source $ALIAS_DIR/.zsh-alias
 source $ENV_DIR/.zsh-environment
 source $ENV_DIR/.liferay-environment
 source $ENV_DIR/.general-environment
-
+source $DOTFILE_DIR/.generalrc
 
 #######################################################################################
 # Custom Functions
@@ -180,6 +180,3 @@ setopt beep nomatch notify
 bindkey -e
 # End of lines configured by zsh-newuser-install
 #
-
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
