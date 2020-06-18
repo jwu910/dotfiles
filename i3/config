@@ -258,11 +258,13 @@ bindsym XF86AudioPrev exec playerctl previous
 ##############################################################################
 
 exec --no-startup-id exec dockedWork
-exec --no-startup-id exec compton -bcCfG --detect-client-opacity --fade-delta=5 --shadow-opacity=0.5 --shadow-offset-x=-1 --shadow-offset-y=-1 &
+exec --no-startup-id exec picom -bcCfG --detect-client-opacity --fade-delta=5 --shadow-opacity=0.5 --shadow-offset-x=-1 --shadow-offset-y=-1 &
 exec --no-startup-id exec dunst -config ~/.config/dunst/dunstrc &
 exec --no-startup-id exec nm-applet
 exec --no-startup-id exec blueman-applet
 
-exec guake
+exec guake &
 exec nitrogen --restore &
 exec redshift -l 34.132268:-117.961578
+
+exec_always --no-startup-id poly-launch
