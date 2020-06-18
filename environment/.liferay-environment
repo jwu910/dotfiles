@@ -2,8 +2,12 @@
 export ANT_OPTS="-Xms511m -Xmx512m -Xmn256M -XX:PermSize=256M -XX:+UseConcMarkSweepGC -XX:-UseGCOverheadLimit"
 export JAVA_HOME="/usr/lib/jvm/default"
 #export JAVA_HOME="/opt/java/current"
-export CATALINA_OPTS="$CATALINA_OPTS -Duser.timezone=PST -Xmx2047m -XX:MaxMetaspaceSize=1024m"
+#export CATALINA_OPTS="$CATALINA_OPTS -Duser.timezone=PST -Xmx2047m -XX:MaxMetaspaceSize=1024m"
+
+CATALINA_OPTS="$CATALINA_OPTS -Dfile.encoding=UTF8 -Djava.net.preferIPv4Stack=true  -Dorg.apache.catalina.loader.WebappClassLoader.ENABLE_CLEAR_REFERENCES=false -Duser.timezone=PST -Xmx1024m -XX:MaxPermSize=384m"
 
 # Gradle Options
 export GRADLE_OPTS="-Xmx1023m -Xms256m -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError"
 
+# Laptop monitor
+export MONITOR="eDP-1"
