@@ -4,7 +4,7 @@ DOTFILE_DIR="$HOME/dotfiles"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/joshua/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -63,7 +63,7 @@ COMPLETION_WAITING_DOTS="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=/home/joshua/.oh-my-zsh/custom
+ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -74,7 +74,7 @@ plugins=(autojump extract fzf ripgrep)
 
 source $ZSH/oh-my-zsh.sh
 
-fpath=($fpath "/home/joshua/.zfunctions")
+fpath=($fpath "$HOME/.zfunctions")
 
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
@@ -167,7 +167,7 @@ fpath+=${ZDOTDIR:-~}/.zsh_functions
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
-zstyle :compinstall filename '/home/joshua/.zshrc'
+zstyle :compinstall filename '$HOME/.zshrc'
 
 autoload -Uz compinit
 compinit
