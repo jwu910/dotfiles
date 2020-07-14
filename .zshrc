@@ -143,13 +143,15 @@ SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 ALIAS_DIR="$DOTFILE_DIR/alias"
 ENV_DIR="$DOTFILE_DIR/environment"
 
+#source $ALIAS_DIR/.liferay-alias
+#source $ENV_DIR/.liferay-environment
 source $ALIAS_DIR/.general-alias
-source $ALIAS_DIR/.liferay-alias
+source $ALIAS_DIR/.pollyex-alias
 source $ALIAS_DIR/.zsh-alias
-source $ENV_DIR/.zsh-environment
-source $ENV_DIR/.liferay-environment
-source $ENV_DIR/.general-environment
 source $DOTFILE_DIR/.generalrc
+source $ENV_DIR/.general-environment
+source $ENV_DIR/.pollyex-environment
+source $ENV_DIR/.zsh-environment
 
 #######################################################################################
 # Custom Functions
