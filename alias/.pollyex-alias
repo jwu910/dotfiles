@@ -1,1 +1,9 @@
 alias pip=pip3
+
+function jira {
+    local branch_name=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{2,}-)([0-9]+)' -m 1)
+
+	local TARGET="https://pollyex.atlassian.net/browse/$branch_name"
+
+	((xdg-open "$TARGET" && echo "Opening: $TARGET") || (open "$TARGET" && echo "Opening: $TARGET")) || echo "Could not open Jira. $EMO_DISAPPROVAL"
+}
