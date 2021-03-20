@@ -130,6 +130,7 @@ set splitright
 set ttymouse=sgr
 set cursorline
 set nofixendofline
+set backspace=indent,eol,start
 
 " Use tabs instead of spaces
 set shiftwidth=4
