@@ -3,6 +3,7 @@
 	autocrlf = input
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	excludesfile = /home/joshua/.gitignore
+	editor = code --wait
 [color]
 	ui = true
 [include]
@@ -36,3 +37,13 @@
 	name = Joshua Wu
 [init]
 	defaultBranch = main
+[diff]
+	tool = vscode
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+	tool = vscode
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+[pager]
+	log = less --lesskey-file=/Users/joshua/programming/enhanced-git-log/build/.less-git-log --chop-long-lines --ignore-case --LONG-PROMPT --LINE-NUMBERS --RAW-CONTROL-CHARS --status-column --tilde
