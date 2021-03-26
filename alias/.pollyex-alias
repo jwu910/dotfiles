@@ -1,4 +1,5 @@
 alias pip=pip3
+alias python=python3
 
 function jira {
     local branch_name=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{2,}-)([0-9]+)' -m 1)
