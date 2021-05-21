@@ -32,9 +32,6 @@
 	gpgsign = true
 [receive]
 	certNonceSeed = true
-[user]
-	email = joshua@pollyex.com
-	name = Joshua Wu
 [init]
 	defaultBranch = main
 [diff]

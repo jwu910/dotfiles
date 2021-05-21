@@ -31,6 +31,12 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline' " Status bar for vim
 Plug 'w0rp/ale', { 'tag': 'v1.9.1' }
 
+" Snippets
+Plug 'SirVer/ultisnips'
+Plug 'leafOfTree/vim-vue-plugin'
+Plug 'honza/vim-snippets'
+
+
 " Install fzf plugin
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -60,6 +66,15 @@ colorscheme OceanicNext
 " Plugins Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Vim Snippets
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+let g:vim_vue_plugin_use_scss= 1
+let g:vim_vue_plugin_highlight_vue_keyword= 1
+
+
 " Ale
 highlight ALEError ctermbg=Blue
 
@@ -74,7 +89,7 @@ let g:ale_fix_on_save = 1
 
 
 " Closetag
-let g:closetag_filenames = "*.html,*.xhtml,*.js,*.jsp,*.jsx,*.ts,*.tsx,*.xml"
+let g:closetag_filenames = "*.html,*.xhtml,*.js,*.jsp,*.jsx,*.ts,*.tsx,*.xml,*.vue"
 let g:mta_filetypes = {
 			\ 'html' : 1,
 			\ 'xhtml': 1,
@@ -83,7 +98,8 @@ let g:mta_filetypes = {
 			\ 'jsx' : 1,
 			\ 'jsp': 1,
 			\ 'ts': 1,
-			\ 'tsx': 1
+			\ 'tsx': 1,
+			\ 'vue': 1
 			\}
 
 " fzf
