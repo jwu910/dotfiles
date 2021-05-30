@@ -1,4 +1,5 @@
 set nocompatible              " be iMproved, required
+set encoding=utf-8
 " filetype off                  " required
 
 " Specify a directory for plugins
