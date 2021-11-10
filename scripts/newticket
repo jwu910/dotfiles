@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "This is echoing from newticket"
+echo "Script file is at /Users/joshua/dotfiles/scripts/newticket"
+echo "Symlink is at /Users/joshua/dotfiles/nscript-links/newticket"
+
+$NAME_PREFIX
+
+git fpv;
+gwip
+
+local JIRA_TICKET = $(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{2,}-)([0-9]+)' -m 1)
