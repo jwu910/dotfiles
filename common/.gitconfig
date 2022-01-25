@@ -2,16 +2,16 @@
 	quotepath = false
 	autocrlf = input
 	pager = diff-so-fancy | less --tabs=4 -RFX
-	excludesfile = /home/joshua/.gitignore
+	excludesfile = ~/.gitignore
 	editor = code --wait
 [color]
 	ui = true
 [include]
-	path = dotfiles/alias/.gitconfig-alias
+	path = ~/dotfiles/common/.gitconfig-alias
 [includeIf "gitdir:**/*"]
-	path = dotfiles/.gitconfig-personal
-[includeIf "gitdir:**/pollyex/"]
-	path = dotfiles/.gitconfig-work
+	path = ~/dotfiles/common/.gitconfig-personal
+[includeIf "gitdir:**/pepperdata/"]
+	path = ~/dotfiles/common/.gitconfig-work
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52

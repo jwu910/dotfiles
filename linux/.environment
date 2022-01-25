@@ -1,0 +1,4 @@
+DOTFILES_DIR="$HOME/dotfiles"
+
+source $DOTFILES_DIR/common/.environment
+source $DOTFILES_DIR/linux/.environment

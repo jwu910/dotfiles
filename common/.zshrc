@@ -140,19 +140,27 @@ SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 #######################################################################################
 # Custom loaders
 #######################################################################################
-ALIAS_DIR="$DOTFILE_DIR/alias"
+#ALIAS_DIR="$DOTFILE_DIR/alias"
 ENV_DIR="$DOTFILE_DIR/environment"
+WORK_DIR="$DOTFILE_DIR/work"
 HOSTNAME="$(uname -n)"
+
+for f in $DOTFILE_DIR/common; do source $f; done
+for f in $DOTFILE_DIR/common/alias; do source $f; done
+for f in $DOTFILE_DIR/common/functions; do source $f; done
 
 #source $ALIAS_DIR/.liferay-alias
 #source $ENV_DIR/.liferay-environment
-source $ALIAS_DIR/.general-alias
-source $ALIAS_DIR/.pollyex-alias
-source $ALIAS_DIR/.zsh-alias
-source $DOTFILE_DIR/.generalrc
+#source $ALIAS_DIR/.general-alias
+#source $ALIAS_DIR/.pollyex-alias
+#source $ALIAS_DIR/.zsh-alias
+#source $DOTFILE_DIR/.generalrc
 source $ENV_DIR/.general-environment
-source $ENV_DIR/.pollyex-environment
+#source $ENV_DIR/.pollyex-environment
 source $ENV_DIR/.zsh-environment
+
+source $HOME/.sekrits
+source $WORK_DIR/.environment
 
 # enable keychain
 if [ -f $HOME/.keychain/$HOSTNAME-sh ]; then

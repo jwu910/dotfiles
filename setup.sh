@@ -8,10 +8,18 @@ log() {
     echo -e "[$1]: $2"
 }
 
+OS_PATH=""
+
+if [ "$(uname)" == "Darwin"]; then
+    OS_PATH="/mac"
+elif [ "$(uname) == "Linux*" ]; then
+    OS-path="/linux"
+fi
+
 generateSymLink() {
     # Check if target and source exist
     local TARGET="$HOME/$1"
-    local SOURCE="$PROJECT_ROOT/$1"
+    local SOURCE="$PROJECT_ROOT$OS_PATH/$1"
 
     if [[ ! -f $SOURCE ]]; then
         log "error" "Dotfile named $1 not found"
