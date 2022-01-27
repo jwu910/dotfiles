@@ -1,3 +1,6 @@
 [user]
 	name = Joshua Wu
 	email = Joshua.wu.0910@gmail.com
+
+[include]
+    path = ~/.gitconfig-signingkey-personal

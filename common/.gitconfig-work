@@ -1,3 +1,6 @@
 [user]
 	name = Joshua Wu
 	email = Joshua@pepperdata.com
+
+[include]
+	path = ~/.gitconfig-signingkey-work
