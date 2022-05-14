@@ -4,3 +4,5 @@
 
 [include]
     path = ~/.gitconfig-signingkey-personal
+[commit]
+	gpgsign = true

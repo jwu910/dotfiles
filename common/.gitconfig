@@ -28,8 +28,6 @@
 	decorate = auto
 [gpg]
 	program = gpg
-[commit]
-	gpgsign = true
 [receive]
 	certNonceSeed = true
 [init]
