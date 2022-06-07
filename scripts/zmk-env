@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "This is echoing from zmk-env"
+echo "Script file is at /Users/joshua/dotfiles/scripts/zmk-env"
+echo "Symlink is at /Users/joshua/dotfiles/nscript-links/zmk-env"
+
+if [ $(uname) != "Darwin" ]; then
+  echo "This script is written for MacOS development, modify this for your current system"
+  exit 1
+fi
+
+export ZEPHYR_TOOLCHAIN_VARIANT=gnuarmemb
+export GNUARMEMB_TOOLCHAIN_PATH=/usr/local
+source "$HOME/programming/zmk/zephyr/zephyr-env.sh"
