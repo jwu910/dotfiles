@@ -3,3 +3,5 @@ for f in $HOME/dotfiles/common/alias/.; do source $f; done
 
 ### Custom Mac related aliases
 alias vim="mvim -v"
+alias python="python3"
+alias pip="pip3"

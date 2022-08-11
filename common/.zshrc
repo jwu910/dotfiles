@@ -85,6 +85,7 @@ prompt spaceship
 #####################################################################################
 #
 # export MANPATH="/usr/local/man:$MANPATH"
+export PATH=~/.local/bin:"$PATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -161,6 +162,7 @@ source $ENV_DIR/.zsh-environment
 
 source $HOME/.sekrits
 source $WORK_DIR/.environment
+echo -e "$WORK_DIR/.environment"
 
 # enable keychain
 if [ -f $HOME/.keychain/$HOSTNAME-sh ]; then

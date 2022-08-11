@@ -2,11 +2,11 @@
 #################################################
 # Custom functions
 #################################################
-OS=""
+local OS=""
 
-if [ $(uname -s) == 'Darwin' ];	then
+if [ "$(uname -s)" == 'Darwin' ];	then
 	OS="/mac"
-elif [	$(uname -s) == 'Linux*' ]; then
+elif [	"$(uname -s)" == 'Linux*' ]; then
 	OS="/linux"
 fi
 

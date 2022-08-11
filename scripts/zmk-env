@@ -9,6 +9,13 @@ if [ $(uname) != "Darwin" ]; then
   exit 1
 fi
 
+echo "Setting ZEPHYR_TOOLCHAIN_VARIANT to gnuarmemb"
 export ZEPHYR_TOOLCHAIN_VARIANT=gnuarmemb
+echo "ZEPHYR_TOOLCHAIN_VARIANT is set to $ZEPHYR_TOOLCHAIN_VARIANT"
+
+echo "Setting GNUARMEMB_TOOLCHAIN_PATH to /usr/local"
 export GNUARMEMB_TOOLCHAIN_PATH=/usr/local
+echo "GNUARMEMB_TOOLCHAIN_PATH is set to $GNUARMEMB_TOOLCHAIN_PATH"
+
+echo "Sourcing zephyr-env.sh"
 source "$HOME/programming/zmk/zephyr/zephyr-env.sh"
