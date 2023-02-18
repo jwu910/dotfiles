@@ -112,27 +112,27 @@ SPACESHIP_WIP_TEXT="${SPACESHIP_WIP_TEXT="WIP!!! "}"
 SPACESHIP_WIP_COLOR="${SPACESHIP_WIP_COLOR="red"}"
 
 # Warn if the current branch is a WIP
-function work_in_progress() {
-  if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-"); then
-    echo "WIP!!"
-  fi
+export -f function work_in_progress() {
+if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-"); then
+	echo "WIP!!"
+fi
 }
 
 spaceship_wip() {
-  [[ $SPACESHIP_WIP_SHOW == false ]] && return
+	[[ $SPACESHIP_WIP_SHOW == false ]] && return
 
-  spaceship::is_git || return
-  spaceship::exists work_in_progress || return
+	spaceship::is_git || return
+	spaceship::exists work_in_progress || return
 
-  if [[ $(work_in_progress) == "WIP!!" ]]; then
-    # Display WIP section
-    spaceship::section \
-      "$SPACESHIP_WIP_COLOR" \
-      "$SPACESHIP_WIP_PREFIX" \
-      "$SPACESHIP_WIP_SYMBOL" \
-      "$SPACESHIP_WIP_TEXT" \
-      "$SPACESHIP_WIP_SUFFIX"
-  fi
+	if [[ $(work_in_progress) == "WIP!!" ]]; then
+		# Display WIP section
+		spaceship::section \
+			"$SPACESHIP_WIP_COLOR" \
+			"$SPACESHIP_WIP_PREFIX" \
+			"$SPACESHIP_WIP_SYMBOL" \
+			"$SPACESHIP_WIP_TEXT" \
+			"$SPACESHIP_WIP_SUFFIX"
+	fi
 }
 
 SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
@@ -166,7 +166,7 @@ echo -e "$WORK_DIR/.environment"
 
 # enable keychain
 if [ -f $HOME/.keychain/$HOSTNAME-sh ]; then
-source $HOME/.keychain/$HOSTNAME-sh
+	source $HOME/.keychain/$HOSTNAME-sh
 fi
 
 
@@ -195,8 +195,8 @@ compinit
 # End of lines added by compinstall
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=2000
-SAVEHIST=5000
+HISTSIZE=10000
+SAVEHIST=20000
 setopt beep nomatch notify
 bindkey -e
 # End of lines configured by zsh-newuser-install

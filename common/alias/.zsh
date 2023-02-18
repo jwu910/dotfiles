@@ -1,17 +1,18 @@
+#!/usr/bin/bash
 
 #################################################
 # Custom functions
 #################################################
-local OS=""
+OS=""
 
 if [ "$(uname -s)" == 'Darwin' ];	then
-	OS="/mac"
-elif [	"$(uname -s)" == 'Linux*' ]; then
-	OS="/linux"
+  OS="mac"
+elif [ "$(uname -s)" == 'Linux*' ]; then
+  OS="linux"
 fi
 
 DOTFILES="$HOME/dotfiles"
-ALIAS_DIR="$DOTFILES$OS/alias"
+ALIAS_DIR="$DOTFILES/$OS/alias"
 
 # fgst - pick files from `git status -s`
 function is_in_git_repo() {

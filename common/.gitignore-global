@@ -1,4 +1,3 @@
+.vscode
 node_modules/
-jsconfig.json
-tsconfig.json
 .DS_Store

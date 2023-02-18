@@ -1,5 +1,11 @@
+#!/bin/bash
+
 # Source alias files
-for f in $HOME/dotfiles/common/alias/.; do source $f; done
+for f in $HOME/dotfiles/common/alias/.*;
+do
+	echo "Sourcing $f...";
+	source $f;
+done
 
 ### Custom Mac related aliases
 alias vim="mvim -v"

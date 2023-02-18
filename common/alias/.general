@@ -1,3 +1,4 @@
 alias vrc="vim ~/.vimrc"
 alias i3rc="vim ~/.config/i3/config"
 alias temp="watch -n 2 sensors"
+alias zmksetup="export ZEPHYR_TOOLCHAIN_VARIANT=gnuarmemb;export GNUARMEMB_TOOLCHAIN_PATH=/usr/local"

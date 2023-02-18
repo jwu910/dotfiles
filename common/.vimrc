@@ -17,7 +17,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'yuezk/vim-js'
 
 " Custom plugins
-Plug 'Valloric/YouCompleteMe' " Autocomplete
+" Plug 'Valloric/YouCompleteMe' " Autocomplete
 Plug 'Yggdroot/indentline'
 Plug 'airblade/vim-gitgutter' " GitGutter for Vim
 Plug 'alvan/vim-closetag'
@@ -30,7 +30,8 @@ Plug 'tpope/vim-commentary' " Comment out lines with 'gcc'
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline' " Status bar for vim
-Plug 'w0rp/ale', { 'tag': 'v1.9.1' }
+Plug 'psf/black', { 'branch': 'stable' }
+" Plug 'w0rp/ale', { 'tag': 'v1.9.1' }
 
 " Snippets
 Plug 'SirVer/ultisnips'
