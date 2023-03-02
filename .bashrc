@@ -4,8 +4,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -37,7 +37,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -65,11 +65,10 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+xterm* | rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
-*)
-    ;;
+*) ;;
 esac
 
 # enable color support of ls and also add handy aliases
@@ -110,11 +109,11 @@ fi
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
 
 # drops first portion of a path $1 if length is greater than $2
@@ -122,7 +121,7 @@ function __droppath {
     if [[ ${#1} -gt $2 ]]; then
         p=$1
         while [ ${#p} -gt $2 ]; do
-            p="/"$(echo "$p"|cut -d"/" -f3-)
+            p="/"$(echo "$p" | cut -d"/" -f3-)
         done
         echo "..."$p
     else
@@ -137,7 +136,7 @@ force_color_prompt=yes
 
 # Add git branch if its present to PS1
 parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
 if [ "$force_color_prompt" = yes ]; then
@@ -179,48 +178,46 @@ alias flip="echo '(╯°□°）╯︵ ┻━┻' | xclip -selection c"
 
 # Start github at current project
 function ghub {
-	local remote=${1:-"origin"}
-	local giturl=$(git config --get "remote.${remote}.url")
-	giturl=${giturl%/}
-	giturl=${giturl%.git}
-	local uri=${giturl##*@}
-		uri=${uri##*://}
-	local urlPath=${uri#*[/:]*}
-	local openUrl="https://github.com/$urlPath"
-	"$BROWSER" $openUrl &
+    local remote=${1:-"origin"}
+    local giturl=$(git config --get "remote.${remote}.url")
+    giturl=${giturl%/}
+    giturl=${giturl%.git}
+    local uri=${giturl##*@}
+    uri=${uri##*://}
+    local urlPath=${uri#*[/:]*}
+    local openUrl="https://github.com/$urlPath"
+    "$BROWSER" $openUrl &
 }
 
-if [ -d "$HOME/.bin" ] ; then
-  PATH="$PATH:$HOME/.bin"
+if [ -d "$HOME/.bin" ]; then
+    PATH="$PATH:$HOME/.bin"
 fi
 
 # Git Gud
 function gitGud {
-    echo "           /\$\$   /\$\$                                     /\$\$";
-    echo "          |__/  | \$\$                                    | \$\$";
-    echo "  /\$\$\$\$\$\$  /\$\$ /\$\$\$\$\$\$          /\$\$\$\$\$\$  /\$\$   /\$\$  /\$\$\$\$\$\$\$";
-    echo " /\$\$__  \$\$| \$\$|_  \$\$_/         /\$\$__  \$\$| \$\$  | \$\$ /\$\$__  \$\$";
-    echo "| \$\$  \ \$\$| \$\$  | \$\$          | \$\$  \ \$\$| \$\$  | \$\$| \$\$  | \$\$";
-    echo "| \$\$  | \$\$| \$\$  | \$\$ /\$\$      | \$\$  | \$\$| \$\$  | \$\$| \$\$  | \$\$";
-    echo "|  \$\$\$\$\$\$\$| \$\$  |  \$\$\$\$/      |  \$\$\$\$\$\$\$|  \$\$\$\$\$\$/|  \$\$\$\$\$\$\$";
-    echo " \____  \$\$|__/   \___/         \____  \$\$ \______/  \_______/";
-    echo " /\$\$  \ \$\$                     /\$\$  \ \$\$                    ";
-    echo "|  \$\$\$\$\$\$/                    |  \$\$\$\$\$\$/                    ";
-    echo " \______/                      \______/                     ";
+    echo "           /\$\$   /\$\$                                     /\$\$"
+    echo "          |__/  | \$\$                                    | \$\$"
+    echo "  /\$\$\$\$\$\$  /\$\$ /\$\$\$\$\$\$          /\$\$\$\$\$\$  /\$\$   /\$\$  /\$\$\$\$\$\$\$"
+    echo " /\$\$__  \$\$| \$\$|_  \$\$_/         /\$\$__  \$\$| \$\$  | \$\$ /\$\$__  \$\$"
+    echo "| \$\$  \ \$\$| \$\$  | \$\$          | \$\$  \ \$\$| \$\$  | \$\$| \$\$  | \$\$"
+    echo "| \$\$  | \$\$| \$\$  | \$\$ /\$\$      | \$\$  | \$\$| \$\$  | \$\$| \$\$  | \$\$"
+    echo "|  \$\$\$\$\$\$\$| \$\$  |  \$\$\$\$/      |  \$\$\$\$\$\$\$|  \$\$\$\$\$\$/|  \$\$\$\$\$\$\$"
+    echo " \____  \$\$|__/   \___/         \____  \$\$ \______/  \_______/"
+    echo " /\$\$  \ \$\$                     /\$\$  \ \$\$                    "
+    echo "|  \$\$\$\$\$\$/                    |  \$\$\$\$\$\$/                    "
+    echo " \______/                      \______/                     "
 }
 export -f gitGud
 
 # Cd up N directories
-function cdn(){ for i in `seq $1`; do cd ..; done;}
-
+function cdn() { for i in $(seq $1); do cd ..; done; }
 
 export TEXT_EDITOR="code"
 export LESS=-R
 
-
 source ~/dotfiles/.liferay-alias
 
-function getJIRA(){ git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1 ; }
+function getJIRA() { git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1; }
 
 export NSCRIPT_EDITOR="code"
 export NSCRIPT_SCRIPT_DIR="/home/joshua/dotfiles/scripts"
@@ -242,51 +239,47 @@ fzfkill() {
         pid=$(ps -ef | sed 1d | fzf -m --preview='' | awk '{print $2}')
     fi
 
-    if [ "x$pid" != "x" ]
-    then
+    if [ "x$pid" != "x" ]; then
         echo $pid | xargs kill -${1:-9}
     fi
 }
 
 # fgst - pick files from `git status -s`
 is_in_git_repo() {
-  git rev-parse HEAD > /dev/null 2>&1
+    git rev-parse HEAD >/dev/null 2>&1
 }
 
 fgst() {
-  # "Nothing to see here, move along"
-  is_in_git_repo || return
+    # "Nothing to see here, move along"
+    is_in_git_repo || return
 
-  local cmd="${FZF_CTRL_T_COMMAND:-"command git status -s"}"
+    local cmd="${FZF_CTRL_T_COMMAND:-"command git status -s"}"
 
-  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" fzf -m "$@" | while read -r item; do
-    echo "$item" | awk '{print $2}'
-  done
-  echo
+    eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" fzf -m "$@" | while read -r item; do
+        echo "$item" | awk '{print $2}'
+    done
+    echo
 }
 alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
 _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
 _viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
 
-
 glog() {
     glNoGraph |
         fzf --no-sort --reverse --tiebreak=index --no-multi \
             --ansi --preview="$_viewGitLogLine" \
-                --header "enter to view, alt-y to copy hash" \
-                --bind "enter:execute:$_viewGitLogLine   | less -R" \
-                --bind "alt-y:execute:$_gitLogLineToHash | xclip"
+            --header "enter to view, alt-y to copy hash" \
+            --bind "enter:execute:$_viewGitLogLine   | less -R" \
+            --bind "alt-y:execute:$_gitLogLineToHash | xclip"
 }
 
+function findNodeModules() { find . -name "node_modules" -type d -prune -mtime +30 -print | xargs du -chs; }
 
-function findNodeModules() { find . -name "node_modules" -type d -prune -mtime +30 -print | xargs du -chs ; }
-
-function cleanBranch() { git pd "$1" && git db-all "$1" ; }
+function cleanBranch() { git pd "$1" && git db-all "$1"; }
 #----------------------------------
 
 export WORKON_HOME=$HOME/.virtualenvs
 source /usr/bin/virtualenvwrapper.sh
-
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -298,6 +291,6 @@ export GPG_TTY=$(tty)
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

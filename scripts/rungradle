@@ -1,5 +1,6 @@
 #!/bin/bash
-
+echo "Deprecated... Update this script to use"
+exit 0
 # Liferay run-gradle script to find gradle files in parent directories for portlet deployment
 
 # Rename settings.gradle temporarily

@@ -1,4 +1,5 @@
 #!/bin/bash
-
+echo "Deprecated... Update this script to use"
+exit 0
 polybarStart &
 feh --randomize --bg-fill ~/Pictures/* &

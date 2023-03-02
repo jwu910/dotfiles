@@ -1,3 +1,5 @@
+echo "[file] Mac .skhdrc"
+
 # ################################################################ #
 #
 # THE FOLLOWING IS AN EXPLANATION OF THE GRAMMAR THAT SKHD PARSES. #

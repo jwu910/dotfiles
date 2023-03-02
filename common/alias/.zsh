@@ -3,16 +3,6 @@
 #################################################
 # Custom functions
 #################################################
-OS=""
-
-if [ "$(uname -s)" == 'Darwin' ];	then
-  OS="mac"
-elif [ "$(uname -s)" == 'Linux*' ]; then
-  OS="linux"
-fi
-
-DOTFILES="$HOME/dotfiles"
-ALIAS_DIR="$DOTFILES/$OS/alias"
 
 # fgst - pick files from `git status -s`
 function is_in_git_repo() {
@@ -80,5 +70,4 @@ alias ll='ls -halF'
 alias ls='exa --git' # Exa installation required
 alias pzf="fzf --preview-window=top --preview='head -100 | bat --theme=zenburn --color=always --map-syntax js:babel {}'"
 alias tr3="tree -d -L 3 -I node_modules"
-alias zrc="vim $DOTFILES/common/.zshrc"
 

@@ -146,9 +146,12 @@ ENV_DIR="$DOTFILE_DIR/environment"
 WORK_DIR="$DOTFILE_DIR/work"
 HOSTNAME="$(uname -n)"
 
-for f in $DOTFILE_DIR/common; do source $f; done
-for f in $DOTFILE_DIR/common/alias; do source $f; done
-for f in $DOTFILE_DIR/common/functions; do source $f; done
+echo "Sourcing common files..."
+# for f in $DOTFILE_DIR/common/.*; do source $f && echo "Sourced $f"; done
+echo "Sourcing common aliases..."
+for f in $DOTFILE_DIR/common/alias/.*; do source $f && echo "Sourced $f"; done
+echo "Sourcing common functions..."
+for f in $DOTFILE_DIR/common/functions/.*; do source $f && echo "Sourced $f"; done
 
 #source $ALIAS_DIR/.liferay-alias
 #source $ENV_DIR/.liferay-environment

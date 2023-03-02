@@ -1,5 +1,6 @@
 #!/bin/bash
-
+echo "Deprecated... Update this script to use"
+exit 0
 
 branch=$(git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{2,}-)([0-9]+)' -m 1)
 number=""

@@ -1,10 +1,13 @@
 #!/bin/bash
+echo "[file] $(basename \"$0\")"
 
 DOTFILES_DIR="$HOME/dotfiles"
 
-source $HOME/dotfiles/common/.zshrc
+alias zrc="vim $DOTFILES_DIR/mac/.zshrc"
 
-source $HOME/dotfiles/mac/.alias
+source $DOTFILES_DIR/common/.zshrc
+
+source $DOTFILES_DIR/mac/.alias
 
 # Add JENV java version manager
 export PATH="$HOME/.jenv/bin:$PATH"

@@ -10,10 +10,10 @@ log() {
 
 OS_PATH=""
 
-if [ "$(uname)" == "Darwin"]; then
+if [ "$(uname)" == "Darwin" ]; then
     OS_PATH="/mac"
-elif [ "$(uname) == "Linux*" ]; then
-    OS-path="/linux"
+elif [ "$(uname)" == "Linux*" ]; then
+    OS_PATH="/linux"
 fi
 
 generateSymLink() {
@@ -60,29 +60,27 @@ if [ -z $DOTFILE_SHELL ]; then
     exit 1
 fi
 
-
 # Add shell config file symbolic links to home
 case $DOTFILE_SHELL in
-    "bash")
-        generateSymLink ".bashrc"
-        ;;
-    "zsh")
-        generateSymLink ".zshrc" &&
+"bash")
+    generateSymLink ".bashrc"
+    ;;
+"zsh")
+    generateSymLink ".zshrc" &&
         echo "git clone https://github.com/denysdovhan/spaceship-prompt.git \"\$ZSH_CUSTOM/themes/spaceship-prompt\"" &&
         echo "ln -s \"\$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme\" \"\$ZSH_CUSTOM/themes/spaceship.zsh-theme\""
 
-        ;;
-    *)
-        log "error" "DOTFILE_SHELL variable does not match any valid shells for this setup. Options are \"bash\" or \"zsh\"."
-        log "error" "Invalid value is : $DOTFILE_SHELL"
-        log "error" "To fix this, modify DOTFILE_SHELL in your $PROJECT_ROOT/environment_setup file."
-        exit 1
-        ;;
+    ;;
+*)
+    log "error" "DOTFILE_SHELL variable does not match any valid shells for this setup. Options are \"bash\" or \"zsh\"."
+    log "error" "Invalid value is : $DOTFILE_SHELL"
+    log "error" "To fix this, modify DOTFILE_SHELL in your $PROJECT_ROOT/environment_setup file."
+    exit 1
+    ;;
 esac
 
 generateSymLink ".gitconfig" &&
-generateSymLink ".vimrc"
-
+    generateSymLink ".vimrc"
 
 # Check if zsh installed
 # Check if oh my zsh installed
@@ -94,4 +92,3 @@ generateSymLink ".vimrc"
 #if sym link exists at ~, then remove symlink and recreate with dotfile in this project
 #if symlink does not exist, but file exists, create a copy of that file with -backup filename and continue to create symlink
 # Install diff-so-fancy
-

@@ -7,5 +7,6 @@ export EMO_SEXY="( ͡° ͜ʖ ͡°)"
 export EMO_SHRUG="¯\_(ツ)_/¯"
 export EMO_UNFLIP="┬─┬ノ( º _ ºノ)"
 
-export EDITOR=nvim
+export EDITOR=vim
+export TEXT_EDITOR="code"
 export GPG_TTY=$(tty)

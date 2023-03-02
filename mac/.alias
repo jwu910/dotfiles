@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "[file] Mac .alias"
 
 # Source alias files
 for f in $HOME/dotfiles/common/alias/.*;
