@@ -31,8 +31,8 @@ yabai -m config normal_window_border_color   0xff555555
 yabai -m config insert_feedback_color        0xffd75f5f
 yabai -m config split_ratio                  0.50
 yabai -m config auto_balance                 off
-yabai -m config active_window_border_topmost on
-yabai -m config window_border_placement      inset
+yabai -m config window_window_topmost               off
+# yabai -m config window_border_placement      inset
 
 # general space settings
 yabai -m config layout                       bsp

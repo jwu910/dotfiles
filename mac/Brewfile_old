@@ -1,0 +1,7 @@
+brew "autojump" # directory navigator
+brew "bat" # cat replacement
+brew "exa" # ls replacement
+brew "fzf" # fuzzy finder
+brew "less" # for enhanced gitlog
+brew "ranger" # vim style cli file browser
+brew "ripgrep" # file finder

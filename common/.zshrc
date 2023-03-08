@@ -1,7 +1,15 @@
+echo "Sourcing common .zshrc"
+
 DOTFILE_DIR="$HOME/dotfiles"
+export GPG_TTY=$(tty) && echo "GPG tty loaded."
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+
+# Determine where nscript managed scripts are stored
+# Must be a valid directory path
+export NSCRIPT_SCRIPT_DIR="$DOTFILE_DIR/scripts"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -172,8 +180,6 @@ if [ -f $HOME/.keychain/$HOSTNAME-sh ]; then
 	source $HOME/.keychain/$HOSTNAME-sh
 fi
 
-
-export GPG_TTY=$(tty)
 
 #######################################################################################
 # Custom Functions

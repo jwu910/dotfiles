@@ -12,3 +12,4 @@ done
 alias vim="mvim -v"
 alias python="python3"
 alias pip="pip3"
+alias brew="/opt/homebrew/bin/brew"
