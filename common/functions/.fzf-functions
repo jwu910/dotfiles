@@ -1,0 +1,8 @@
+export function gitlog() {
+  git log --oneline --abbrev-commit --color=always --format="%n %h - %s - %an - %ar" |
+    fzf --ansi \
+      --preview 'echo {} | awk "{print \$1}" | \
+			xargs -I % sh -c "git show --color=always --stat --patch % | less -R"' \
+      --preview-window=up:70%:wrap \
+      --bind "enter:execute(git show --color=always --stat --patch {} | less -R)"
+}

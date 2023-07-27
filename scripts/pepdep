@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Read the file path as an argument
+file_path=$1
+
+if [  -z "$1" ]; then
+  cd ~/workspace/pepperdata/deployment || echo "Unable to navigate to deployment directory" && exit 1
+  pwd
+  file_path="custdash/install_packages_peprata.txt"
+fi
+# Prompt for the project
+read -rp "Enter project (dashboard/finops): " project
+
+if [[ $project == "dashboard" ]]; then
+    # Prompt for the deployment environment
+    read -rp "Enter the deployment environment (test/beta/prod): " deployment_env
+
+    # Define the search pattern based on the deployment environment
+    if [[ $deployment_env == "test" ]]; then
+        search_pattern=":test\$"
+    elif [[ $deployment_env == "beta" ]]; then
+        search_pattern=":beta\$"
+    elif [[ $deployment_env == "prod" ]]; then
+        search_pattern="(:demo|\.war)\$"
+    else
+        echo "Invalid deployment environment. Please choose test, beta, or prod."
+        exit 1
+    fi
+fi
+
+# Find the lines matching the search pattern along with their line numbers
+matching_lines=$(grep -nE "(.*Dashboard-)([0-9]+\.[0-9]+\.[0-9]+).*($search_pattern)" "$file_path" | grep "$project")
+
+# Print the matching lines and current version numbers
+echo "Matching lines:"
+while IFS= read -r line; do
+    line_number=$(echo "$line" | cut -d':' -f1)
+    current_version=$(echo "$line" | grep -oE "([0-9]+\.[0-9]+\.[0-9]+)" | head -n1)
+    echo "Current version: $current_version - $line"
+done <<< "$matching_lines"
+
+# Prompt for the new version number
+read -rp "Enter the new version number: " new_version
+new_version=$(echo "$new_version" | tr -d '\n')
+
+# Prompt for the new version number and replace the lines in the file
+while IFS= read -r line; do
+    line_number=$(echo "$line" | cut -d':' -f1)
+    current_version=$(echo "$line" | grep -oE "([0-9]+\.[0-9]+\.[0-9]+)" | head -n1)
+    echo "Current version: $current_version - $line"
+
+    # Replace the line using the line number and update both occurrences of the version number
+    sed -i '' "${line_number}s/\(.*\)$current_version\(.*\)/\1$new_version\2/g" "$file_path" && echo "Line $line_number replaced $current_version with $new_version"
+    sed -i '' "${line_number}s/\(.*\)$current_version\(.*\)/\1$new_version\2/g" "$file_path" && echo "Line $line_number replaced $current_version with $new_version"
+done <<< "$matching_lines"

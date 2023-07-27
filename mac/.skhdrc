@@ -72,6 +72,10 @@
 #
 #               an EOL character signifies the end of the bind.
 
+# Restart yabai
+ctrl + alt - r : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
+
 # open terminal
 #cmd - return : /Applications/iTerm.app ~
 

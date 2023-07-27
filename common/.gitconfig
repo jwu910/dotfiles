@@ -42,3 +42,10 @@
 	cmd = code --wait $MERGED
 [pager]
 	log = less --lesskey-file=/Users/joshua/programming/enhanced-git-log/build/.less-git-log --chop-long-lines --ignore-case --LONG-PROMPT --LINE-NUMBERS --RAW-CONTROL-CHARS --status-column --tilde
+
+; FIXME: Not sure why I added this
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process

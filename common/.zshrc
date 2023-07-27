@@ -93,7 +93,7 @@ prompt spaceship
 #####################################################################################
 #
 # export MANPATH="/usr/local/man:$MANPATH"
-export PATH=~/.local/bin:"$PATH"
+export PATH="~/.local/bin:$PATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -120,7 +120,7 @@ SPACESHIP_WIP_TEXT="${SPACESHIP_WIP_TEXT="WIP!!! "}"
 SPACESHIP_WIP_COLOR="${SPACESHIP_WIP_COLOR="red"}"
 
 # Warn if the current branch is a WIP
-export -f function work_in_progress() {
+work_in_progress() {
 if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-"); then
 	echo "WIP!!"
 fi
@@ -149,26 +149,31 @@ SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 #######################################################################################
 # Custom loaders
 #######################################################################################
-#ALIAS_DIR="$DOTFILE_DIR/alias"
-ENV_DIR="$DOTFILE_DIR/environment"
 WORK_DIR="$DOTFILE_DIR/work"
 HOSTNAME="$(uname -n)"
+COMMON_DIR="$DOTFILE_DIR/common"
 
-echo "Sourcing common files..."
+# echo "Sourcing common files..."
 # for f in $DOTFILE_DIR/common/.*; do source $f && echo "Sourced $f"; done
-echo "Sourcing common aliases..."
-for f in $DOTFILE_DIR/common/alias/.*; do source $f && echo "Sourced $f"; done
-echo "Sourcing common functions..."
-for f in $DOTFILE_DIR/common/functions/.*; do source $f && echo "Sourced $f"; done
 
-#source $ALIAS_DIR/.liferay-alias
-#source $ENV_DIR/.liferay-environment
-#source $ALIAS_DIR/.general-alias
-#source $ALIAS_DIR/.pollyex-alias
-#source $ALIAS_DIR/.zsh-alias
-#source $DOTFILE_DIR/.generalrc
+ALIAS_DOTFILES=("$COMMON_DIR/alias"/.[!.]*)
+if [[ ${#ALIAS_DOTFILES[@]} -gt 2 ]]; then
+	echo "Sourcing common aliases..."
+	for f in $ALIAS_DOTFILES; do source $f && echo "Sourced $f"; done
+fi
+
+FUNCTIONS_DOTFILES=("$COMMON_DIR/functions"/.[!.]*)
+if [ ${#FUNCTIONS_DOTFILES[@]} -gt 2 ]; then
+	echo "Sourcing common aliases..."
+	for f in $FUNCTIONS_DOTFILES; do source $f && echo "Sourced $f";
+
+
+
+done
+fi
+
+ENV_DIR="$DOTFILE_DIR/environment"
 source $ENV_DIR/.general-environment
-#source $ENV_DIR/.pollyex-environment
 source $ENV_DIR/.zsh-environment
 
 source $HOME/.sekrits

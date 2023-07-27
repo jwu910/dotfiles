@@ -1,0 +1,76 @@
+#!/bin/bash
+# Copyright 2023 Pepperdata Inc. - All rights reserved.
+
+# This script lists all git tracked files in the repository, and adds Pepperdata copyright comment to the top of the file
+# By default the script is set to update files with the extensions *.js, *.jsx, *.ts, *.tsx, *.java, and *.py
+
+# TODO: Add argument to allow user to run this with path as $1 or "project", and change extension_override to $2
+cd "$(git rev-parse --show-toplevel)" || cd ..
+
+comment="Copyright $(date +%Y) Pepperdata Inc. - All rights reserved."
+
+# Return comment string for associated file
+function get_comment_indicator() {
+  local file
+  local extension
+
+  file=$1
+  extension="${file##*.}"
+  case "$extension" in
+    "js" | "jsx" | "ts" | "tsx" | "java") comment_ind="//" ;;
+    "py" | "yml" | "yaml") comment_ind="#" ;;
+    *) comment_ind="#" ;;  # Default to "#"
+  esac
+  echo "$comment_ind"
+}
+
+# Execute line replacement
+function update_comment() {
+  # If shebang is present on first line, insert copyright at 2nd line.
+  if echo "$first_three_lines" | grep -q -E "#!"; then
+    sed -E "2s|^|$comment_ind $comment\n|" "$file" > "$file.tmp" && mv "$file.tmp" "$file" && echo "Comment inserted in $file"
+  else
+    sed -E "1s|^|$comment_ind $comment\n|" "$file" > "$file.tmp" && mv "$file.tmp" "$file" && echo "Comment inserted in $file"
+  fi
+}
+
+extension_override=$1
+
+# List files based on user input or use defaults to update defined here
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  echo "Usage: './update_copyrights.sh [extension]"
+  echo "Example: './update_copyrights.sh js'"
+  echo "This example will list all git tracked files with the *.js extension and attempt to insert copyright snippet"
+  exit 0
+elif [ -n "$1" ]; then
+  echo "Updating copyrights in files with extention: $extension_override"
+  files=$(git ls-files "*.$extension_override")
+else
+  echo "No extension provided, continue with the defaults? (Enter/No)"
+  echo "js, jsx, ts, tsx, java, py"
+  read -r proceed
+  if [[ "$proceed" != "No" && "$proceed" != "no" ]]; then
+    files=$(git ls-files "*.js" "*.jsx" "*.ts" "*.tsx" "*.java" "*.py")
+  else
+    echo "Cancelled..."
+    exit 0
+  fi
+fi
+
+# Iterate through the specified file types and update the comments
+for file in $files; do
+  extension="${file##*.}"
+  comment_ind=$(get_comment_indicator "$file")
+  first_three_lines=$(head -n 3 "$file")
+  if echo "$file" | grep -q "\.yarn"; then
+    echo "Skipping: Not managed by Pepperdata: $file"
+  elif echo "$first_three_lines" | grep -q ".*Copyright.*reserved\."; then
+    echo "Skipping: Copyright up to date: $file"
+  elif echo "$first_three_lines" | grep -q "Copyright 2016 LinkedIn Corp."; then
+    echo "Skipping: Open Source License: $file"
+  elif ! echo "$first_three_lines" | grep -q ".*Copyright.*reserved(\.)?"; then
+    update_comment "$file"
+  else
+    echo "Skipping $file"
+  fi
+done

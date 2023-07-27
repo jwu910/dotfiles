@@ -65,7 +65,7 @@ alias qgit="git"
 alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign -m "--wip-- [skip ci]"'
 alias l='ls -F'
-alias la='ls -a'
+alias la='ls -la'
 alias ll='ls -halF'
 alias ls='exa --git' # Exa installation required
 alias pzf="fzf --preview-window=top --preview='head -100 | bat --theme=zenburn --color=always --map-syntax js:babel {}'"
