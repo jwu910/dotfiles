@@ -1,3 +1,5 @@
+echo "[file] $(basename \"$0\")"
+
 export FZF_DEFAULT_COMMAND='rg --files --hidden -s'
 
 export DOTFILE_SHELL="zsh"

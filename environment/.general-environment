@@ -1,3 +1,5 @@
+echo "[file] $(basename \"$0\")"
+
 export EMO_CHEER="(ノ・∀・)ノ"
 export EMO_DENSE="╚(•⌂•)╝"
 export EMO_DISAPPROVAL="ಠ_ಠ"
