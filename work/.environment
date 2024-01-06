@@ -1,9 +1,0 @@
-export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
-export CPPFLAGS="-I/usr/local/opt/openjdk@11/include"
-
-export JAVA_HOME=$(jenv javahome)
-
-export PD_ALERTS_ENABLED=true
-export PD_ALARM_POLL_INTERVAL_MINUTES=1
-export PD_DEBUG_REALMS="pepperdata-demonstration"
-export CHROMATIC_PROJECT_TOKEN=fb148a29bca7

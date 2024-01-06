@@ -173,12 +173,12 @@ done
 fi
 
 ENV_DIR="$DOTFILE_DIR/environment"
-source $ENV_DIR/.general-environment
-source $ENV_DIR/.zsh-environment
+# source $ENV_DIR/.general-environment
+# source $ENV_DIR/.zsh-environment
 
 source $HOME/.sekrits
-source $WORK_DIR/.environment
-echo -e "$WORK_DIR/.environment"
+# source $WORK_DIR/.environment
+# echo -e "$WORK_DIR/.environment"
 
 # enable keychain
 if [ -f $HOME/.keychain/$HOSTNAME-sh ]; then
