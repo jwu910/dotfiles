@@ -1,9 +1,5 @@
 #!/bin/bash
 
-echo "This is echoing from ticket"
-echo "Script file is at /Users/joshua/dotfiles/scripts/ticket"
-echo "Symlink is at /Users/joshua/dotfiles/nscript-links/ticket"
-
 ticketNumber=$1
 desc=$(gh issue view $ticketNumber --json title --template '{{.title}}' | xargs echo | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:][:space:]' | tr ' ' '-' )
 branchName="$(whoami)-$ticketNumber-$desc"
