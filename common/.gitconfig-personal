@@ -1,8 +1,7 @@
 [user]
   name = Joshua Wu
   email = code@joshuawu.me
+  signingkey = CEB56F386C09593B
 
-[include]
-  path = ~/.gitconfig-signingkey-personal
 [commit]
   gpgsign = true
