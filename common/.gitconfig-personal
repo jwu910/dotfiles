@@ -1,7 +1,7 @@
 [user]
   name = Joshua Wu
   email = code@joshuawu.me
-  signingkey = CEB56F386C09593B
+  signingkey = 6C415252563CAF37
 
 [commit]
   gpgsign = true
