@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+echo "[file] $(basename \"$0\")"
+
+# export JAVA_HOME=/Users/joshua/.jenv/versions/1.8
+export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/openjdk@11/include"
+
+export JAVA_HOME=$(jenv javahome)
+
+export PD_ALERTS_ENABLED=true
+export PD_ALARM_POLL_INTERVAL_MINUTES=1

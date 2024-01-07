@@ -84,6 +84,14 @@ source $ZSH/oh-my-zsh.sh
 
 fpath=($fpath "$HOME/.zfunctions")
 
+# If spaceship theme is not installed, install it
+if [[ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]]; then
+  echo "git clone https://github.com/denysdovhan/spaceship-prompt.git \"$ZSH_CUSTOM/themes/spaceship-prompt\"" &&
+  git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" &&
+  echo "ln -s \"\$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme\" \"\$ZSH_CUSTOM/themes/spaceship.zsh-theme\"" &&
+  ln -s $ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme $ZSH_CUSTOM/themes/spaceship.zsh-theme
+fi
+
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
 prompt spaceship
@@ -121,26 +129,27 @@ SPACESHIP_WIP_COLOR="${SPACESHIP_WIP_COLOR="red"}"
 
 # Warn if the current branch is a WIP
 work_in_progress() {
-if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-"); then
-	echo "WIP!!"
+# TODO: Updated for linux, verify mac grep flags
+if $(git log -n 1 2>/dev/null | grep -q -c -e "--wip--"); then
+  echo "WIP!!"
 fi
 }
 
 spaceship_wip() {
-	[[ $SPACESHIP_WIP_SHOW == false ]] && return
+  [[ $SPACESHIP_WIP_SHOW == false ]] && return
 
-	spaceship::is_git || return
-	spaceship::exists work_in_progress || return
+  spaceship::is_git || return
+  spaceship::exists work_in_progress || return
 
-	if [[ $(work_in_progress) == "WIP!!" ]]; then
-		# Display WIP section
-		spaceship::section \
-			"$SPACESHIP_WIP_COLOR" \
-			"$SPACESHIP_WIP_PREFIX" \
-			"$SPACESHIP_WIP_SYMBOL" \
-			"$SPACESHIP_WIP_TEXT" \
-			"$SPACESHIP_WIP_SUFFIX"
-	fi
+  if [[ $(work_in_progress) == "WIP!!" ]]; then
+    # Display WIP section
+    spaceship::section \
+      "$SPACESHIP_WIP_COLOR" \
+      "$SPACESHIP_WIP_PREFIX" \
+      "$SPACESHIP_WIP_SYMBOL" \
+      "$SPACESHIP_WIP_TEXT" \
+      "$SPACESHIP_WIP_SUFFIX"
+  fi
 }
 
 SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
@@ -149,7 +158,6 @@ SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
 #######################################################################################
 # Custom loaders
 #######################################################################################
-WORK_DIR="$DOTFILE_DIR/work"
 HOSTNAME="$(uname -n)"
 COMMON_DIR="$DOTFILE_DIR/common"
 
@@ -158,31 +166,22 @@ COMMON_DIR="$DOTFILE_DIR/common"
 
 ALIAS_DOTFILES=("$COMMON_DIR/alias"/.[!.]*)
 if [[ ${#ALIAS_DOTFILES[@]} -gt 2 ]]; then
-	echo "Sourcing common aliases..."
-	for f in $ALIAS_DOTFILES; do source $f && echo "Sourced $f"; done
+  echo "Sourcing common aliases..."
+  for f in $ALIAS_DOTFILES; do source $f && echo "Sourced $f"; done
 fi
 
 FUNCTIONS_DOTFILES=("$COMMON_DIR/functions"/.[!.]*)
 if [ ${#FUNCTIONS_DOTFILES[@]} -gt 2 ]; then
-	echo "Sourcing common aliases..."
-	for f in $FUNCTIONS_DOTFILES; do source $f && echo "Sourced $f";
-
-
-
-done
+  echo "Sourcing common functions..."
+  for f in $FUNCTIONS_DOTFILES; do source $f && echo "Sourced $f"; done
 fi
 
-ENV_DIR="$DOTFILE_DIR/environment"
-# source $ENV_DIR/.general-environment
-# source $ENV_DIR/.zsh-environment
 
 source $HOME/.sekrits
-# source $WORK_DIR/.environment
-# echo -e "$WORK_DIR/.environment"
 
 # enable keychain
 if [ -f $HOME/.keychain/$HOSTNAME-sh ]; then
-	source $HOME/.keychain/$HOSTNAME-sh
+  source $HOME/.keychain/$HOSTNAME-sh
 fi
 
 
@@ -214,4 +213,29 @@ SAVEHIST=20000
 setopt beep nomatch notify
 bindkey -e
 # End of lines configured by zsh-newuser-install
-#
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# place this after nvm initialization!
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc

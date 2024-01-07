@@ -12,3 +12,12 @@ export EMO_UNFLIP="┬─┬ノ( º _ ºノ)"
 export EDITOR=vim
 export TEXT_EDITOR="code"
 export GPG_TTY=$(tty)
+
+export FZF_DEFAULT_COMMAND='rg --files --hidden -s'
+
+export DOTFILE_SHELL="zsh"
+
+export NSCRIPT_EDITOR="$TEXT_EDITOR"
+export NSCRIPT_SCRIPT_DIR="$DOTFILES_DIR/scripts"
+export NSCRIPT_EXECUTABLE_DIR="$DOTFILES_DIR/nscript-links"
+export PATH="$PATH:$NSCRIPT_EXECUTABLE_DIR"

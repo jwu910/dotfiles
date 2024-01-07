@@ -1,8 +1,8 @@
 [user]
-	name = Joshua Wu
-	email = Joshua@pepperdata.com
+  name = Joshua Wu
+  email = Joshua@pepperdata.com
 
 [include]
-	path = ~/.gitconfig-signingkey-work
+  path = ~/.gitconfig-signingkey-work
 [commit]
-    gpgsign = true
+  gpgsign = true

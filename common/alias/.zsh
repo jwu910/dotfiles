@@ -67,7 +67,7 @@ alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commi
 alias l='ls -F'
 alias la='ls -la'
 alias ll='ls -halF'
-alias ls='exa --git' # Exa installation required
+alias ls='eza --git' # Eza installation required. Note: exa -> eza on linux
 alias pzf="fzf --preview-window=top --preview='head -100 | bat --theme=zenburn --color=always --map-syntax js:babel {}'"
 alias tr3="tree -d -L 3 -I node_modules"
 

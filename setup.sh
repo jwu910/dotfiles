@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "This file is still WIP, uncomment the following line to run"
-exit 0
+#exit 0
 
 log() {
     # Simmple logger function
@@ -12,14 +12,34 @@ OS_PATH=""
 
 if [ "$(uname)" == "Darwin" ]; then
     OS_PATH="/mac"
-elif [ "$(uname)" == "Linux*" ]; then
+elif [ "$(uname)" == "Linux" ]; then
     OS_PATH="/linux"
 fi
+
+echo "Identified OS_PATH is $OS_PATH"
+
+read -rp "Do you want to proceed with the default shell (zsh)? (Y/n) " PROCEED_DEFAULT_SHELL
+
+if [[ "$PROCEED_DEFAULT_SHELL" == "Y" || "$PROCEED_DEFAULT_SHELL" == "y" || -z "$PROCEED_DEFAULT_SHELL" ]]; then
+  DOTFILE_SHELL="zsh"
+else
+  read -rp "Enter a valid shell (bash/zsh): " CUSTOM_SHELL
+
+  if [[ "$CUSTOM_SHELL" == "bash" || "$CUSTOM_SHELL" == "zsh" ]]; then
+    DOTFILE_SHELL="$CUSTOM_SHELL"
+  else
+    echo "Invalid shell entered. Defaulting to zsh."
+    DOTFILE_SHELL="zsh"
+  fi
+fi
+
 
 generateSymLink() {
     # Check if target and source exist
     local TARGET="$HOME/$1"
     local SOURCE="$PROJECT_ROOT$OS_PATH/$1"
+
+    echo "Generating symlink for $SOURCE at $TARGET"
 
     if [[ ! -f $SOURCE ]]; then
         log "error" "Dotfile named $1 not found"
@@ -46,11 +66,9 @@ generateSymLink() {
     fi
 }
 
-source "./environment_setup"
-
 PROJECT_ROOT=$(git rev-parse --show-toplevel)
 
-SCRIPTS_PATH="$PROJECT_ROOT/scripts"
+# SCRIPTS_PATH="$PROJECT_ROOT/scripts"
 
 # Check env variables for usage through setup; Determine what shell to use
 # Variable name: DOTFILE_SHELL
@@ -66,10 +84,7 @@ case $DOTFILE_SHELL in
     generateSymLink ".bashrc"
     ;;
 "zsh")
-    generateSymLink ".zshrc" &&
-        echo "git clone https://github.com/denysdovhan/spaceship-prompt.git \"\$ZSH_CUSTOM/themes/spaceship-prompt\"" &&
-        echo "ln -s \"\$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme\" \"\$ZSH_CUSTOM/themes/spaceship.zsh-theme\""
-
+    generateSymLink ".zshrc"
     ;;
 *)
     log "error" "DOTFILE_SHELL variable does not match any valid shells for this setup. Options are \"bash\" or \"zsh\"."
@@ -81,6 +96,13 @@ esac
 
 generateSymLink ".gitconfig" &&
     generateSymLink ".vimrc"
+
+# Force set up for signing key
+if ! ls ~/.gitconfig-signing-key* 1> /dev/null 2>&1; then
+  echo "Error: ~/.gitconfig-signing-key* file does not exist"
+  exit 1
+fi
+
 
 # Check if zsh installed
 # Check if oh my zsh installed
