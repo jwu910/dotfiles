@@ -21,6 +21,8 @@ alias zrc="vim $DOTFILES_DIR/mac/.zshrc"
 source $DOTFILES_DIR/common/.zshrc
 source $DOTFILES_DIR/mac/.alias
 
+export PATH="$HOME/dotfiles/scripts:$PATH"
+
 # Add new homebrew to path for Ventura 13+
 export PATH="/opt/homebrew/bin:$PATH"
 
@@ -29,3 +31,4 @@ clear
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+export HOMEBREW_NO_AUTO_UPDATE=true

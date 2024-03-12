@@ -48,15 +48,15 @@ generateSymLink() {
     elif [[ -f "$SOURCE" && ! -f "$TARGET" ]]; then
         log "log" "Dotfile found, creating symbolic link."
 
-        ln -s $SOURCE $TARGET && log "success" "Created sym link for \"$1\" at \"$HOME/$1\""
+        ln -s "$SOURCE" "$TARGET" && log "success" "Created sym link for \"$1\" at \"$HOME/$1\""
     elif [[ -L "$TARGET" ]]; then
         echo "A $1 configuration file already exists."
         read -rsn 1 -ep "Create backup and continue to create sym link? (Y/n) " CONTINUE
 
         if [ "$CONTINUE" == "Y" ]; then
-            mv $TARGET "$HOME/$1-original"
+            mv "$TARGET" "$HOME/$1-original"
 
-            ln -s $SOURCE $TARGET && log "success" "Created sym link for \"$1\" at \"$HOME/$1\" with a backup at \"$HOME/$1-original\""
+            ln -s "$SOURCE" "$TARGET" && log "success" "Created sym link for \"$1\" at \"$HOME/$1\" with a backup at \"$HOME/$1-original\""
         else
             log "log" "Skipping symbolic link for \"$1\". Run this script again or manually link file."
             log "code" "ln -s $SOURCE $TARGET"
@@ -73,7 +73,7 @@ PROJECT_ROOT=$(git rev-parse --show-toplevel)
 # Check env variables for usage through setup; Determine what shell to use
 # Variable name: DOTFILE_SHELL
 # Options: "bash" | "zsh"
-if [ -z $DOTFILE_SHELL ]; then
+if [ -z "$DOTFILE_SHELL" ]; then
     log "error" "No value set for environment variable DOTFILE_SHELL, please set this in your environemnt_setup file"
     exit 1
 fi
