@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Path: deletePruned
+# Description: Delete all branches that have been merged into master reading from the prune stdout
+# This should read from stdin, I plan to pipe my command git fetch --prune output into this script
+# Usage: git fetch --prune | deletePruned
+# If any [deleted] branches are found, they generate a list of local branch names and pipe into fzf
+# allow user to select more than one branch with fzf's multiple select option
+# on submit, delete selected branches locally with git branch -D
+
+while read -r branch; do
+  if [[ $branch == *"[deleted]"* ]]; then
+    branch_name=$(echo "$branch" | awk '{print $1}')
+    echo "$branch_name"
+  fi
+done | fzf --multi | xargs -I {} git branch -D {}
+re

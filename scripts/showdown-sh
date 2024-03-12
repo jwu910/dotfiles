@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo "This is echoing from showdown-sh"
+echo "Script file is at /Users/joshua/dotfiles/scripts/showdown-sh"
+echo "Symlink is at /Users/joshua/dotfiles/nscript-links/showdown-sh"
+
+#!/bin/bash
+
+# Path to the showdown-sh script
+SHOWDOWN_SCRIPT="/Users/joshua/dotfiles/scripts/showdown-sh"
+
+# Path to the input file
+INPUT_FILE="files.txt"
+
+# Loop through each line in the input file
+while IFS= read -r file
+do
+  # Process the file through showdown
+  markdown=$(cat "$file" | "$SHOWDOWN_SCRIPT")
+
+  # Print the converted markdown
+  echo "$markdown"
+
+done < "$INPUT_FILE"

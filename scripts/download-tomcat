@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+# Get user input
+if [ -z "$1" ]; then
+  echo "Please provide a version in the format of a semantic version (i.e. 9.0.81)"
+  exit 1
+else
+  VERSION=$1
+fi
+
+# Construct URL
+MAJOR_VERSION=$(echo $VERSION | cut -d '.' -f 1)
+URL="https://dlcdn.apache.org/tomcat/tomcat-$MAJOR_VERSION/v$VERSION/bin/apache-tomcat-$VERSION.tar.gz"
+
+# Download file
+echo "Downloading tomcat"
+curl -O $URL
+
+# Check sha512
+echo "shasum $(shasum -a 512 "./apache-tomcat-$VERSION.tar.gz")"
+EXPECTED_SHA=$(curl "https://downloads.apache.org/tomcat/tomcat-$MAJOR_VERSION/v$VERSION/bin/apache-tomcat-$VERSION.tar.gz.sha512" | awk '{print $1}')
+
+if [ "$EXPECTED_SHA" == $(shasum -a 512 "./apache-tomcat-$VERSION.tar.gz" | awk '{print $1}') ]; then
+  echo "Verification successful"
+  FILE_PATH=$(pwd)/apache-tomcat-$VERSION.tar.gz
+  echo "Downloaded file path:"
+  echo "$FILE_PATH"
+else
+  echo "Verification failed"
+  read -p "Do you want to delete the downloaded file? (y/n) " choice
+  case "$choice" in
+    y|Y ) rm "apache-tomcat-$VERSION.tar.gz" && rm "apache-tomcat-$VERSION.tar.gz.sha512" ;;
+    n|N ) echo "Please verify the file manually or download the file from https://tomcat.apache.org/download-xx.cgi";;
+    * ) echo "Invalid option. Please enter y/n.";;
+  esac
+fi

@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# get stdin from pipe when this script is called from the cli
+if [ -p /dev/stdin ]; then
+  read -r input
+fi
+
+if [ -z "$input" ]; then
+  echo "No input provided. Exiting..."
+  exit 1
+fi
+VOLUME_PATH=/Volumes/SeagateSlim
+
+function connectDisk() {
+  diskutil ap unlockVolume /dev/disk5s2 -stdinpassphrase <<< "$input"
+  tmutil latestbackup -d "$VOLUME_PATH" -t 2>&1
+
+  # if no destination info, set destination with sudo
+  if [ $? -eq 1 ]; then
+    echo "No destination info found. Setting destination..."
+    sudo tmutil setdestination -a "$VOLUME_PATH"
+    sleep 2
+  fi
+}
+
+function unmountDisk() {
+  tmutil latestbackup -d "$VOLUME_PATH"
+
+
+  diskutil ap lock "$VOLUME_PATH"
+}
+
+function checkBackupStatus() {
+  echo "Backup status: $(tmutil status | grep -q 'Running = 1')"
+}
+
+function printStatus() {
+  echo "Backup is in progress. $(tmutil status | grep -o 'Percent = [0-9]*\.[0-9]*' | cut -d '=' -f 2 | awk '{print $1"%"}') complete. Estimated time remaining: $(tmutil status | grep -o 'TimeRemaining = [0-9]*\.[0-9]*' | cut -d '=' -f 2 | awk '{print $1" minutes"}')"
+}
+
+# Check if SeagateSlim external drive is attached
+if mount | grep -q "$VOLUME_PATH"; then
+  echo "SeagateSlim external drive is attached. Initiating backup..."
+
+  # Initiate backup
+  tmutil startbackup --auto
+
+  # Listen for backup completion event
+  while tmutil status | grep -q 'Running = 1'; do
+    echo "Checking backup status..."
+    sleep 5
+  done
+  unmountDisk
+  echo "Backup completed. Ejecting SeagateSlim external drive..."
+  exit 0
+else
+  # Try catch attempt to mount "$VOLUME_PATH", if error, then exit 1
+  echo "SeagateSlim external drive is not attached. Attempting to mount..."
+  connectDisk
+
+  if mount | grep -q "$VOLUME_PATH"; then
+    echo "SeagateSlim external drive is attached. Initiating backup..."
+
+    # check if backup is already in progress
+    if tmutil status | grep -q 'Running = 1'; then
+      echo "Backup is already in progress. Exiting..."
+      while tmutil status | grep -q 'Running = 1'; do
+        printStatus
+        sleep 5
+      done
+    else
+      echo "Backup is not in progress. Initiating backup..."
+
+      tmutil startbackup --auto
+      while tmutil status | grep -q 'Running = 1'; do
+        printStatus
+        sleep 5
+      done
+
+    fi
+
+    echo "Ejecting SeagateSlim external drive..."
+    unmountDisk
+  else
+    echo "SeagateSlim external drive is not attached. Cannot initiate backup."
+    exit 1
+  fi
+fi || exit 1

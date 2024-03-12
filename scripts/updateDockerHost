@@ -1,0 +1,52 @@
+#!/bin/bash
+
+echo "This is echoing from updatedockername"
+echo "Script file is at /Users/joshua/dotfiles/scripts/updatedockername"
+echo "Symlink is at /Users/joshua/dotfiles/nscript-links/updatedockername"
+
+set -e
+
+# Check if $ghprbPullId is empty
+if [[ -z "$ghprbPullId" ]]; then
+  if [[ -n "$1" ]]; then
+    ghprbPullId="$1"
+  else
+    echo "Error: Missing ghprbPullId variable. Please provide a value."
+    exit 1
+  fi
+fi
+
+# Check if $github_token is empty
+if [[ -z "$github_token" ]]; then
+  echo "Error: Missing github_token variable. Please provide a value."
+  exit 1
+fi
+
+# Check if $dockername is empty
+if [[ -z "$dockername" ]]; then
+  if [[ -n "$2" ]]; then
+    dockername="$2"
+  else
+    echo "Error: Missing dockername variable. Please provide a value."
+    exit 1
+  fi
+fi
+
+# Replace localhost OR old docker names with new dockername from env
+curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer ${github_token}" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  "https://api.github.com/repos/pepperdata/dashboard/pulls/$ghprbPullId" \
+  | sed -i -E "s|https://localhost:8443|https://${dockername}.pepperdata.com|g; s|https://.*\.pepperdata.com|https://${dockername}.pepperdata.com|g" \
+  | jq -r '.body' > new-pr.md
+
+bodyString='{"body":'$(jq -c -Rs '.' ./new-pr.md)'}'
+
+curl -L \
+  -X PATCH \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer ${github_token}" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  "https://api.github.com/repos/pepperdata/dashboard/pulls/$ghprbPullId" \
+  -d "$bodyString" && echo "Pull request description updated."

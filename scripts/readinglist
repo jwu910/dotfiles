@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+# Fetch the JSON data
+json=$(curl -s "$1")
+
+# Parse the data and create the CSV
+echo $json | jq -r '["title", "author", "genre", "rating", "tags", "notes", "url"], (.timeline[] | [.title.text, .author, .genre, .rating, .tags, .notes, .title.url]) | @csv'
