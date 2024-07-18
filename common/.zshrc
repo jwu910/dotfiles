@@ -84,13 +84,13 @@ source $ZSH/oh-my-zsh.sh
 
 fpath=($fpath "$HOME/.zfunctions")
 
-# If spaceship theme is not installed, install it
-if [[ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]]; then
-  echo "git clone https://github.com/denysdovhan/spaceship-prompt.git \"$ZSH_CUSTOM/themes/spaceship-prompt\"" &&
-  git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" &&
-  echo "ln -s \"\$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme\" \"\$ZSH_CUSTOM/themes/spaceship.zsh-theme\"" &&
-  ln -s $ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme $ZSH_CUSTOM/themes/spaceship.zsh-theme
-fi
+# # If spaceship theme is not installed, install it
+# if [[ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]]; then
+#   echo "git clone https://github.com/denysdovhan/spaceship-prompt.git \"$ZSH_CUSTOM/themes/spaceship-prompt\"" &&
+#   git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" &&
+#   echo "ln -s \"\$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme\" \"\$ZSH_CUSTOM/themes/spaceship.zsh-theme\"" &&
+#   ln -s $ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme $ZSH_CUSTOM/themes/spaceship.zsh-theme
+# fi
 
 # Set Spaceship ZSH as a prompt
 # autoload -U promptinit; promptinit
@@ -121,38 +121,51 @@ export PATH="~/.local/bin:$PATH"
 # Usage:  `gwip` to create a work in progress commit
 #         `gunwip` to remove last work in progress commit
 # https://github.com/denysdovhan/spaceship-prompt
-SPACESHIP_WIP_PREFIX="${SPACESHIP_WIP_PREFIX="$SPACESHIP_PROMPT_DEFAULT_PREFIX"}"
-SPACESHIP_WIP_SUFFIX="${SPACESHIP_WIP_SUFFIX="$SPACESHIP_PROMPT_DEFAULT_SUFFIX"}"
-SPACESHIP_WIP_SYMBOL="${SPACESHIP_WIP_SYMBOL="🚧 "}"
-SPACESHIP_WIP_TEXT="${SPACESHIP_WIP_TEXT="WIP!!! "}"
-SPACESHIP_WIP_COLOR="${SPACESHIP_WIP_COLOR="red"}"
+# SPACESHIP_WIP_PREFIX="${SPACESHIP_WIP_PREFIX="$SPACESHIP_PROMPT_DEFAULT_PREFIX"}"
+# SPACESHIP_WIP_SUFFIX="${SPACESHIP_WIP_SUFFIX="$SPACESHIP_PROMPT_DEFAULT_SUFFIX"}"
+# SPACESHIP_WIP_SYMBOL="${SPACESHIP_WIP_SYMBOL="🚧 "}"
+# SPACESHIP_WIP_TEXT="${SPACESHIP_WIP_TEXT="WIP!!! "}"
+# SPACESHIP_WIP_COLOR="${SPACESHIP_WIP_COLOR="red"}"
+
+# spaceship_wip() {
+#   [[ $SPACESHIP_WIP_SHOW == false ]] && return
+
+#   spaceship::is_git || return
+#   spaceship::exists work_in_progress || return
+
+#   if [[ $(work_in_progress) == "WIP!!" ]]; then
+#     # Display WIP section
+#     spaceship::section \
+#       "$SPACESHIP_WIP_COLOR" \
+#       "$SPACESHIP_WIP_PREFIX" \
+#       "$SPACESHIP_WIP_SYMBOL" \
+#       "$SPACESHIP_WIP_TEXT" \
+#       "$SPACESHIP_WIP_SUFFIX"
+#   fi
+# }
+
+# SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
+
 
 # Warn if the current branch is a WIP
 work_in_progress() {
-# TODO: Updated for linux, verify mac grep flags
-if $(git log -n 1 2>/dev/null | grep -q -c -e "--wip--"); then
-  echo "WIP!!"
-fi
-}
-
-spaceship_wip() {
-  [[ $SPACESHIP_WIP_SHOW == false ]] && return
-
-  spaceship::is_git || return
-  spaceship::exists work_in_progress || return
-
-  if [[ $(work_in_progress) == "WIP!!" ]]; then
-    # Display WIP section
-    spaceship::section \
-      "$SPACESHIP_WIP_COLOR" \
-      "$SPACESHIP_WIP_PREFIX" \
-      "$SPACESHIP_WIP_SYMBOL" \
-      "$SPACESHIP_WIP_TEXT" \
-      "$SPACESHIP_WIP_SUFFIX"
+  if [[ "$(uname)" = "Darwin" ]]; then
+    if [ ! "$(git log -n 1 2>/dev/null | grep -c -e "--wip--")" -eq 0 ]; then
+      echo "🚧 WIP!!"
+    fi
+  else
+    if [ ! "$(git log -n 1 2>/dev/null | grep -q -c -e "--wip--")" -eq 0 ]; then
+      echo "🚧 WIP!!"
+    fi
   fi
 }
 
-SPACESHIP_PROMPT_ORDER=($SPACESHIP_PROMPT_ORDER wip)
+wip() {
+  echo "$(work_in_progress)"
+}
+
+JOVIAL_DEV_ENV_DETECT_FUNCS+=( wip )
+JOVIAL_PROMPT_ORDER=( host user path dev-env wip git-info )
 
 
 #######################################################################################
