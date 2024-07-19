@@ -150,12 +150,12 @@ export PATH="~/.local/bin:$PATH"
 # Warn if the current branch is a WIP
 work_in_progress() {
   if [[ "$(uname)" = "Darwin" ]]; then
-    if [ ! "$(git log -n 1 2>/dev/null | grep -c -e "--wip--")" -eq 0 ]; then
-      echo "🚧 WIP!!"
+    if [ ! "$(git log -n 1 2>/dev/null | grep -c -e --wip--)" -eq 0 ]; then
+      echo "🚧 WIP!! 🚧"
     fi
   else
     if [ ! "$(git log -n 1 2>/dev/null | grep -q -c -e "--wip--")" -eq 0 ]; then
-      echo "🚧 WIP!!"
+      echo "🚧 WIP!! 🚧"
     fi
   fi
 }
@@ -165,8 +165,16 @@ wip() {
 }
 
 JOVIAL_DEV_ENV_DETECT_FUNCS+=( wip )
-JOVIAL_PROMPT_ORDER=( host user path dev-env wip git-info )
-
+JOVIAL_PROMPT_ORDER=( host user path dev-env git-info )
+JOVIAL_PROMPT_ORDER+=( wip )
+JOVIAL_PROMPT_PRIORITY=(
+    wip
+    path
+    git-info
+    user
+    host
+    dev-env
+)
 
 #######################################################################################
 # Custom loaders
