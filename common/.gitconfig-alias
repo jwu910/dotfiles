@@ -75,6 +75,8 @@
     ## Branches
     ##--------
 
+    getm = "!f() { git symbolic-ref refs/remotes/origin/HEAD | cut -f4 -d/; }; f"
+
     # Checkout
     co = checkout
     # Checkout last branch
@@ -295,9 +297,9 @@
     #pum = push upstream $(git getm)
 
     # Rebase on top of main
-    #rbm = !git rebase $(git getm)
+    rbm = !git rebase $(git getm)
     # Rebase on top of main interactively
-    #rbim = rebase -i $(git getm)
+    rbim = rebase -i $(git getm)
 
 
     # These are the same as cam, ca and squish, except it adds new files as well
@@ -307,4 +309,3 @@
     # Adds all changed files into the last commit
     #squish = commit -a --amend -C HEAD
 
-    # syncloop = "!f() { git pc upstream ee-6.2.x && git pbo -f; }; f"
