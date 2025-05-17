@@ -36,7 +36,7 @@
     # Fetch and prune origin
     fpv = "!f() { git fetch $1 -pv; }; f"
 
-    # pd = "!f() { git checkout $1 && git checkout master; }; f"
+    # pd = "!f() { git checkout $1 && git checkout main; }; f"
 
     # purge = "!f() { git pd $1 && git db-all $1; }; f"
 
@@ -96,7 +96,7 @@
     #mg = merge
     # Merge abort
     #mga = merge --abort
-    # Merge master into current branch
+    # Merge main into current branch
     #mm = !git merge $(git getm)
 
     ## Rebasing
@@ -134,7 +134,7 @@
     db-all = !sh -c 'git db $0 && git db-remote $0'
 
     # Delete the current local branch and checkout default branch
-    dbc = "!f() { local bn=$1; [[ -z $bn ]] && bn=$(git brn); master=$(git getm); [[ $bn == $master ]] && echo Cannot remove "$master" && exit; git co $master && git db $bn; }; f"
+    dbc = "!f() { local bn=$1; [[ -z $bn ]] && bn=$(git brn); main=$(git getm); [[ $bn == $main ]] && echo Cannot remove "$main" && exit; git co $main && git db $bn; }; f"
 
     ## Pushing
     ##--------
@@ -159,7 +159,7 @@
     lgd = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(cyan)<%an>%Creset' --abbrev-commit --date=default
     # lg graph with the names of the files that have changed
     lgst = !git lg --stat $@
-    # lg graph with the changes between the current branch and master
+    # lg graph with the changes between the current branch and main
     lgm = !git lg $(git getm)..
     # lg graph with grepping on the log
     lgg = "!f() { git lg --grep=\"$1\"; }; f"
@@ -225,10 +225,10 @@
     # eg. git get-custom-refspec					# prints HEAD^..HEAD
     #     git get-custom-refspec ^					# prints HEAD^..
     #     git get-custom-refspec 81c35e1			# prints 81c35e1^..81c35e1
-    #     git get-custom-refspec 5250022..master	# prints 5250022..master
+    #     git get-custom-refspec 5250022..main	# prints 5250022..main
     #get-custom-refspec = "!f() { to_rev=${1:-HEAD}; [[ $to_rev == ^ ]] && to_rev=HEAD^..; old_head=${to_rev}^; new_head=$to_rev; if [[ $to_rev == *..* ]]; then old_head=${to_rev%%..*}; new_head=${to_rev#*..*}; fi; ref_spec=$old_head..$new_head; echo $ref_spec; }; f"
 
-    # Checkout master
+    # Checkout main
     #m = !git co $(git getm)
 
     ## Submodules
@@ -260,7 +260,7 @@
     #bopen = "!f() { local ref_spec=$(git get-custom-refspec $1); editor=`git config --get user.editor`;files=`git diff --pretty=format: --name-only $ref_spec`;useopen=`command -v open`; usecygwin=`command -v cygstart`; [[ -n $useopen ]] && open -a \"$editor\" $files && exit $?; [[ -n $usecygwin ]] && editor=$(cygpath -d $editor); for i in $files; do echo opening $i; $usecygwin $editor $i; done }; f"
     # open each file individually
     #open = "!f() { local ref_spec=$(git get-custom-refspec $1); editor=`git config --get user.editor`;files=`git diff --pretty=format: --name-only $ref_spec`;useopen=`command -v open`; usecygwin=`command -v cygstart`; [[ -n $useopen ]] && for i in $files; do echo opening $i; $useopen -a \"$editor\" $i; done && exit $?; [[ -n $usecygwin ]] && editor=$(cygpath -d $editor); for i in $files; do echo opening $i; $usecygwin $editor $i; done }; f"
-    # Open all files that are different from master
+    # Open all files that are different from main
     #openm = !git open $(git getm)..
 
     ## Stashing
@@ -276,27 +276,27 @@
     #sl = stash list
 
 
-    # Sync master from upstream to origin
-    # This alias will stash current changes, switch to master, sync, then switch back to the original branch and apply the stash
-    #som = "!f() { local current_branch=$(git brn); local saved_index=0; local stash_save_result=`git stash save`; [[ $stash_save_result == *\"HEAD is now at\"* ]] && saved_index=1; master=$(git getm); git checkout $master && git sync-origin $master && git checkout $current_branch && ([[ $saved_index == 1 ]]) && git stash pop; }; f;"
-    # Sync current branch with changes from upstream/master to the current branch on origin
+    # Sync main from upstream to origin
+    # This alias will stash current changes, switch to main, sync, then switch back to the original branch and apply the stash
+    #som = "!f() { local current_branch=$(git brn); local saved_index=0; local stash_save_result=`git stash save`; [[ $stash_save_result == *\"HEAD is now at\"* ]] && saved_index=1; main=$(git getm); git checkout $main && git sync-origin $main && git checkout $current_branch && ([[ $saved_index == 1 ]]) && git stash pop; }; f;"
+    # Sync current branch with changes from upstream/main to the current branch on origin
     #so = !git sync-origin $(git getm)
     # Sync current branch from upstream to origin
     #sbo = !git sync-origin $(git brn)
 
 
-    # Syncs from upstream, then pushes the master branch to origin and upstream
-    #push-allm = "!master=$(git getm); git sync-origin $master && git push origin $master && git push upstream $master;"
-    # Syncs from upstream, then pushes the master branch to origin and upstream
+    # Syncs from upstream, then pushes the main branch to origin and upstream
+    #push-allm = "!main=$(git getm); git sync-origin $main && git push origin $main && git push upstream $main;"
+    # Syncs from upstream, then pushes the main branch to origin and upstream
     #push-all = "!f() { current_branch=$(git brn); git sync-origin $current_branch && git push origin $current_branch && git push upstream $current_branch; }; f"
 
     #pa = !git push-all
     #pam = !git push-allm
     #pum = push upstream $(git getm)
 
-    # Rebase on top of master
+    # Rebase on top of main
     #rbm = !git rebase $(git getm)
-    # Rebase on top of master interactively
+    # Rebase on top of main interactively
     #rbim = rebase -i $(git getm)
 
 
