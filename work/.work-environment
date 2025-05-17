@@ -9,3 +9,8 @@ export JAVA_HOME=$(jenv javahome)
 
 export PD_ALERTS_ENABLED=true
 export PD_ALARM_POLL_INTERVAL_MINUTES=1
+
+export PATH="/opt/pepperdata/native3/bin:$PATH"
+# Try to source a local .work-scripts file
+echo "Sourcing work-scripts file..."
+source $DOTFILES_DIR/work/.work-scripts || echo "No work-scripts file found."

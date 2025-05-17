@@ -28,32 +28,31 @@ function findNodeModules() {
 
 # Pull down remote branch and then delete local and remote references
 function cleanBranch() {
-  git pd "$1" && git db-all "$1";
+  git pd "$1" && git db-all "$1"
 }
 
 # Get JIRA ticket pattern from branch name
-function getJIRA() {
-  git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1
-}
+# function getJIRA() {
+#   git rev-parse --abbrev-ref HEAD | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1
+# }
 
 # Git Gud
 function gitGud() {
-    echo "           /\$\$   /\$\$                                     /\$\$";
-    echo "          |__/  | \$\$                                    | \$\$";
-    echo "  /\$\$\$\$\$\$  /\$\$ /\$\$\$\$\$\$          /\$\$\$\$\$\$  /\$\$   /\$\$  /\$\$\$\$\$\$\$";
-    echo " /\$\$__  \$\$| \$\$|_  \$\$_/         /\$\$__  \$\$| \$\$  | \$\$ /\$\$__  \$\$";
-    echo "| \$\$  \ \$\$| \$\$  | \$\$          | \$\$  \ \$\$| \$\$  | \$\$| \$\$  | \$\$";
-    echo "| \$\$  | \$\$| \$\$  | \$\$ /\$\$      | \$\$  | \$\$| \$\$  | \$\$| \$\$  | \$\$";
-    echo "|  \$\$\$\$\$\$\$| \$\$  |  \$\$\$\$/      |  \$\$\$\$\$\$\$|  \$\$\$\$\$\$/|  \$\$\$\$\$\$\$";
-    echo " \____  \$\$|__/   \___/         \____  \$\$ \______/  \_______/";
-    echo " /\$\$  \ \$\$                     /\$\$  \ \$\$                    ";
-    echo "|  \$\$\$\$\$\$/                    |  \$\$\$\$\$\$/                    ";
-    echo " \______/                      \______/                     ";
+  echo "           /\$\$   /\$\$                                     /\$\$"
+  echo "          |__/  | \$\$                                    | \$\$"
+  echo "  /\$\$\$\$\$\$  /\$\$ /\$\$\$\$\$\$          /\$\$\$\$\$\$  /\$\$   /\$\$  /\$\$\$\$\$\$\$"
+  echo " /\$\$__  \$\$| \$\$|_  \$\$_/         /\$\$__  \$\$| \$\$  | \$\$ /\$\$__  \$\$"
+  echo "| \$\$  \ \$\$| \$\$  | \$\$          | \$\$  \ \$\$| \$\$  | \$\$| \$\$  | \$\$"
+  echo "| \$\$  | \$\$| \$\$  | \$\$ /\$\$      | \$\$  | \$\$| \$\$  | \$\$| \$\$  | \$\$"
+  echo "|  \$\$\$\$\$\$\$| \$\$  |  \$\$\$\$/      |  \$\$\$\$\$\$\$|  \$\$\$\$\$\$/|  \$\$\$\$\$\$\$"
+  echo " \____  \$\$|__/   \___/         \____  \$\$ \______/  \_______/"
+  echo " /\$\$  \ \$\$                     /\$\$  \ \$\$                    "
+  echo "|  \$\$\$\$\$\$/                    |  \$\$\$\$\$\$/                    "
+  echo " \______/                      \______/                     "
 }
 
 # Cd up N directories
-function cdn() { for i in `seq $1`; do cd ..; done;}
-
+function cdn() { for i in $(seq $1); do cd ..; done; }
 
 #################################################
 # Custom Aliases
@@ -64,10 +63,9 @@ alias got="git"
 alias qgit="git"
 alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign -m "--wip-- [skip ci]"'
+alias ls='eza --git'
 alias l='ls -F'
 alias la='ls -la'
 alias ll='ls -halF'
-alias ls='eza --git' # Eza installation required. Note: exa -> eza on linux
 alias pzf="fzf --preview-window=top --preview='head -100 | bat --theme=zenburn --color=always --map-syntax js:babel {}'"
 alias tr3="tree -d -L 3 -I node_modules"
-

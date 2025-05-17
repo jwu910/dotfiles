@@ -26,6 +26,7 @@
 	whitespace = red reverse
 [log]
 	decorate = auto
+	showTags = true
 [gpg]
 	program = gpg
 [receive]

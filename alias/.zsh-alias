@@ -75,11 +75,10 @@ alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commi
 alias l='ls -F'
 alias la='ls -a'
 alias ll='ls -halF'
-alias ls='exa --git' # Exa installation required
+alias ls='eza --git' # Exa installation required
 alias odiff="git diff upstream/master --stat --name-only --relative"
 alias pzf="fzf --preview-window=top --preview='head -100 | bat --theme=zenburn --color=always --map-syntax js:babel {}'"
 alias restartnetwork="sudo systemctl restart NetworkManager.service && echo $EMO_FLIP Network manager restarting..."
 alias tr3="tree -d -L 3 -I node_modules"
 alias zrc="vim $DOTFILES/.zshrc"
 alias zrca="vim $ALIAS_DIR/.zsh-alias"
-

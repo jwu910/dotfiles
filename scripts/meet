@@ -4,4 +4,4 @@ echo "This is echoing from meet"
 echo "Script file is at /Users/joshua/dotfiles/scripts/meet"
 echo "Symlink is at /Users/joshua/dotfiles/nscript-links/meet"
 
-open -a "Google Chrome" "https://meet.google.com"
+open -a "Firefox" "https://meet.google.com?authuser=1"

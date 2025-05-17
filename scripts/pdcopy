@@ -7,7 +7,7 @@
 # TODO: Add argument to allow user to run this with path as $1 or "project", and change extension_override to $2
 cd "$(git rev-parse --show-toplevel)" || cd ..
 
-comment="Copyright $(date +%Y) Pepperdata Inc. - All rights reserved."
+comment="Copyright (c) $(date +%Y) Pepperdata Inc. - All rights reserved."
 
 # Return comment string for associated file
 function get_comment_indicator() {
