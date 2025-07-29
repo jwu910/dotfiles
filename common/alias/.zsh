@@ -51,6 +51,13 @@ function gitGud() {
   echo " \______/                      \______/                     "
 }
 
+# Loop through stdin and execute a command for each line. Command should be passed in as an argument string.
+function xargs-exec() {
+  while read -r line; do
+    eval "$1 $line"
+  done
+}
+
 # Cd up N directories
 function cdn() { for i in $(seq $1); do cd ..; done; }
 
