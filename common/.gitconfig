@@ -41,8 +41,9 @@
 	tool = vscode
 [mergetool "vscode"]
 	cmd = code --wait $MERGED
-[pager]
-	log = less --lesskey-file=/Users/joshua/programming/enhanced-git-log/build/.less-git-log --chop-long-lines --ignore-case --LONG-PROMPT --LINE-NUMBERS --RAW-CONTROL-CHARS --status-column --tilde
+# lesskey deprecated
+# [pager]
+# 	log = less --lesskey-file=/Users/joshua/programming/enhanced-git-log/build/.less-git-log --chop-long-lines --ignore-case --LONG-PROMPT --LINE-NUMBERS --RAW-CONTROL-CHARS --status-column --tilde
 
 ; FIXME: Not sure why I added this
 [filter "lfs"]

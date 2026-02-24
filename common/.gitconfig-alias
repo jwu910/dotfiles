@@ -34,7 +34,7 @@
     gud = !bash -c "gitGud"
 
     # Fetch and prune origin - Highlight updated refs
-    fpv = "!f() { git fetch $1 -v | grep '$(whoami)' | awk '$2 != $3 || NF < 3 {print}' && echo \"Done fetching and pruning.\" && git status ; }; f"
+    fpv = "!f() { git fetch $1 -pv --porcelain | awk '$4 ~ /\\/dev/ || $2 != $3 || NF < 3 || $4 ~ /'"$(whoami)"'/ {print}' | grep --color -e \"^\" -e ''$(whoami)'' -e \"dev\" && echo \"Done fetching and pruning.\" && git status | grep --color -e \"^\" -e joshua ; }; f"
 
     # List orphaned branches - Branches where remote is listed as [gone]
     orphans = "!f() { git branch -v | grep '\\[gone\\]' | fzf -m | sed 's/ [0-9a-f]\\{7,40\\}.*//'; }; f"
