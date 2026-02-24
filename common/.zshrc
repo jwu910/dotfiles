@@ -78,7 +78,12 @@ ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(autojump extract fzf ripgrep zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(autojump extract fzf eza colorize colored-man-pages command-not-found zsh-autosuggestions)
+
+
+if [[ -f "$HOME/.zfunctions" ]]; then
+  source "$HOME/.zfunctions"
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -148,27 +153,23 @@ export PATH="~/.local/bin:$PATH"
 
 
 # Warn if the current branch is a WIP
-work_in_progress() {
-  if [[ "$(uname)" = "Darwin" ]]; then
-    if [ ! "$(git log -n 1 2>/dev/null | grep -c -e --wip--)" -eq 0 ]; then
-      echo "🚧 WIP!! 🚧"
-    fi
-  else
-    if [ ! "$(git log -n 1 2>/dev/null | grep -q -c -e "--wip--")" -eq 0 ]; then
-      echo "🚧 WIP!! 🚧"
-    fi
-  fi
-}
+# function work_in_progress() {
+#   if [[ "$(uname)" = "Darwin" ]]; then
+#     if [ ! "$(git log -n 1 2>/dev/null | grep -c -e --wip--)" -eq 0 ]; then
+#       echo "🚧 WIP!! 🚧"
+#     fi
+#   else
+#     if [ ! "$(git log -n 1 2>/dev/null | grep -q -c -e "--wip--")" -eq 0 ]; then
+#       echo "🚧 WIP!! 🚧"
+#     fi
+#   fi
+# }
 
-wip() {
-  echo "$(work_in_progress)"
-}
-
-JOVIAL_DEV_ENV_DETECT_FUNCS+=( wip )
+# function wip() {
+#   echo "$(work_in_progress)"
+# }
 JOVIAL_PROMPT_ORDER=( host user path dev-env git-info )
-JOVIAL_PROMPT_ORDER+=( wip )
 JOVIAL_PROMPT_PRIORITY=(
-    wip
     path
     git-info
     user

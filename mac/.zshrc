@@ -38,3 +38,4 @@ clear
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 export HOMEBREW_NO_AUTO_UPDATE=true
+export PATH="$HOME/.local/bin:$PATH"
