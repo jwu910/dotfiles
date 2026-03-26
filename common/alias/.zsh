@@ -68,6 +68,7 @@ function cdn() { for i in $(seq $1); do cd ..; done; }
 alias ff="git ls-files | grep $1"
 alias got="git"
 alias qgit="git"
+alias gits="git status"
 alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign -m "--wip-- [skip ci]"'
 alias ls='eza --git'
