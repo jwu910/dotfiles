@@ -11,7 +11,6 @@ brew "bat"
 brew "berkeley-db", link: true
 brew "ccache"
 brew "cmake"
-brew "codemod"
 brew "libusb"
 brew "dfu-util"
 brew "dtc"
