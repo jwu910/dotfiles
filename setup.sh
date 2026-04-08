@@ -62,7 +62,7 @@ generateSymLink() {
             log "code" "ln -s $SOURCE $TARGET"
         fi
     else
-        log "error" "Nothing happend. Am I broken?"
+        log "error" "Nothing happened. Am I broken?"
     fi
 }
 
@@ -94,8 +94,11 @@ case $DOTFILE_SHELL in
     ;;
 esac
 
-generateSymLink ".gitconfig" &&
-    generateSymLink ".vimrc"
+generateSymLink ".gitconfig"
+generateSymLink ".vimrc"
+generateSymLink ".yabairc"
+generateSymLink ".skhdrc"
+
 
 # Force set up for signing key
 if ! ls ~/.gitconfig-signing-key* 1> /dev/null 2>&1; then
