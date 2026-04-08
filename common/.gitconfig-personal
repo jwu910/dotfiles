@@ -3,5 +3,8 @@
   email = code@joshuawu.me
   signingkey = 6C415252563CAF37
 
+[include]
+  path = ~/.gitconfig-signing-key-personal
+
 [commit]
   gpgsign = true
