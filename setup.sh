@@ -37,10 +37,17 @@ fi
 generateSymLink() {
     # Check if target and source exist
     local TARGET="$HOME/$1"
+    local OS_PATH="$OS_PATH" # local copy so the global OS_PATH is preserved
     local SOURCE="$PROJECT_ROOT$OS_PATH/$1"
 
     echo "Generating symlink for $SOURCE at $TARGET"
 
+    if [[ ! -f "$SOURCE" ]]; then
+      log "warn" "Dotfile \"$1\" not found in $OS_PATH. Retrying with /common."
+      OS_PATH="/common"
+      SOURCE="$PROJECT_ROOT$OS_PATH/$1"
+      log "log" "Generating symlink for fallback source $SOURCE at $TARGET"
+    fi
     if [[ ! -f $SOURCE ]]; then
         log "error" "Dotfile named $1 not found"
 
@@ -116,6 +123,17 @@ if [ ! -f ~/.vim/autoload/plug.vim ]; then
   vim +PlugInstall +qall
 fi
 
+if [ ! -f ~/.oh-my-zsh/custom/themes/jovial.zsh-theme-backup ] && [ -f ~/.oh-my-zsh/custom/themes/jovial.zsh-theme ]; then
+  OH_MY_ZSH_THEMES_PATH=~/.oh-my-zsh/custom/themes
+  log "log" "Downloading oh my zsh theme Jovial"
+  curl -sSL https://github.com/zthxxx/jovial/raw/master/installer.sh | sudo -E bash -s "${USER:=$(whoami)}"
+
+  log "log" "Backing up original theme"
+  mv "$OH_MY_ZSH_THEMES_PATH/jovial.zsh-theme" "$OH_MY_ZSH_THEMES_PATH/jovial.zsh-theme-backup"
+
+  log "log" "Generating symlink for modified jovial theme"
+  ln -s "$PROJECT_ROOT/common/oh-my-zsh/themes/jovial-modified.zsh-theme" "$OH_MY_ZSH_THEMES_PATH/jovial.zsh-theme"
+fi
 
 # Check if zsh installed
 # Check if oh my zsh installed
