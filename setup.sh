@@ -103,6 +103,16 @@ if ! ls ~/.gitconfig-signing-key* 1> /dev/null 2>&1; then
   exit 1
 fi
 
+# VimPlug for vim plugins
+if [ ! -f ~/.vim/autoload/plug.vim ]; then
+  echo "Installing Vim Plug"
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  echo "Running PlugInstall"
+  vim +PlugInstall +qall
+fi
+
 
 # Check if zsh installed
 # Check if oh my zsh installed
